@@ -1,0 +1,13 @@
+@import "../../../../../styles/variables.scss";
+
+.header_main {
+    width: 100%;
+    height: $header_height;
+    background-color: $color1;
+    position: fixed;
+}
+
+.logo_cont {
+    height: $logo_height;
+    width: $logo_width;
+}
