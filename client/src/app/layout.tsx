@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 
-import "./globals.css";
+import "./globals.scss";
 import Header from "./_components/global/Header/Header";
-
-const inter = Inter({ subsets: ["latin"] });
+import StoreProvider from "../store/StoreProvider";
+import ApolloClientProvider from "../apollo/ApolloClientProvider";
 
 export const metadata: Metadata = {
   title: "Tennis"
 };
+
 
 const RootLayout = ({
   children,
@@ -17,8 +17,14 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <Header />
-      <body className={inter.className}>{children}</body>
+      <body>
+        <ApolloClientProvider>
+          <StoreProvider>
+            <Header />
+            {children}
+          </StoreProvider>
+        </ApolloClientProvider>
+      </body>
     </html>
   );
 }

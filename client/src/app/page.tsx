@@ -1,14 +1,13 @@
 import styles from "./page.module.scss";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-      
+        <p>home</p>
       </div>
     </main>
   );
 }
 
-
-export default Home;
+export default HomePage;
