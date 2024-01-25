@@ -10,6 +10,9 @@ const Header = () => {
                     className={styles.logo}
                 />
             </div>
+            <div className={styles.user_data_cont}>
+                
+            </div>
         </div>
     )
 }

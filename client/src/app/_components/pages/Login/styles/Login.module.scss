@@ -1,0 +1,46 @@
+@import "../../../../../styles/mixins.scss";
+@import "../../../../../styles/variables.scss";
+@import "../../../../../styles/classes.scss";
+
+.main {
+    @include demo($color1, 1);
+    @extend .center_content;
+}
+
+.window {
+    @extend .center_content;
+
+    flex-direction: column;
+    width: 400px;
+    height: 400px;
+}
+
+.title {
+    color: $color3;
+    font-size: 30px
+}
+
+.form {
+    @extend .center_content;
+
+    height: 200px;
+    justify-content: space-evenly;
+    flex-direction: column;
+
+}
+
+.input {
+    @include base_input($color1, $color2);
+}
+
+.button {
+    @include base_button($color2, $color1);
+}
+
+.change_status_link {
+    text-decoration: underline;
+    color: $color3;
+    margin-left: auto;
+    margin-right: 50px;
+    cursor: pointer;
+}
