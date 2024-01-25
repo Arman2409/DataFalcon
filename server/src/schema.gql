@@ -1,0 +1,12 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserType {
+  name: String!
+  bestScore: Float!
+}
+
+type Query {
+  GetUser(username: String!, password: String!): UserType!
+}

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
-import { gql, useMutation } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { client } from "@/apollo/ApolloClientProvider";
 // import type {  UserInitialState } from "../types/storeTypes";
 
@@ -11,30 +11,20 @@ const initialState = {
 
 }
 
-export const getUserStatus = createAsyncThunk(
+export const getUser = createAsyncThunk(
     "login/getUserStatus",
-    async ({username, password}:any) => {
-        console.log(username, password);
-        
+    async ({ username, password }: any) => {
         const query = gql`
-        mutation GetUser ($username: String!, $password:  String!){
-          login(username: $username, password: $password) {
-            user {
-              bestScore
+        {
+            GetUser(username:"${username}", password: "${password}"){
               name
+              bestScore
             }
-         }
-        }
+          }
       `
         const result = await client.mutate({
             mutation: query,
-            variables: {
-                username,
-                password
-            }
         })
-        console.log(result);
-        
         return result;
     }
 )
@@ -44,17 +34,13 @@ const userSlice: Slice = createSlice({
     name: "loginSlice",
     initialState,
     reducers: {
-       
+
     },
     extraReducers: (builder) => {
-        builder.addCase(getUserStatus.fulfilled, (state, action) => {
-            console.log(state);
-            
+        builder.addCase(getUser.fulfilled, (state, action) => {
             state = action.payload;
         })
-        builder.addCase(getUserStatus.rejected, (state, action) => {
-            console.log(state);
-
+        builder.addCase(getUser.rejected, (state, action) => {
             state = "rejected";
         })
     }

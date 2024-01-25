@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import styles from "./styles/Login.module.scss";
-import { getUserStatus } from "@/store/slices/loginSlice";
+import { getUser } from "@/store/slices/loginSlice";
 
 const getStatusTitle = (current: "signIn" | "signUp") => current === "signIn" ? "Sign In" : "Sign Up";
 
@@ -12,9 +12,9 @@ const Login = () => {
     const form = useRef<any>(null);
     const dispatch = useDispatch();
 
-    const submit = useCallback(() => {
+    const submit = useCallback(async () => {
         const {elements} = form.current;
-        const userName = elements.username.value;
+        const username = elements.username.value;
         const password = elements.password.value;
         if(status === "signUp") {
             const repeatPassword = elements.repeatPassword.value;
@@ -23,14 +23,16 @@ const Login = () => {
                 return;
             }
         }
-        const data = dispatch(getUserStatus({userName, password}) as any).unwrap().then((data:any) => {
-            console.log(data);
-            
+        await dispatch(getUser({username, password}) as any).unwrap().then((data:any) => {
+            if(typeof data === "object") {
+
+            }
+            if(typeof data === "object") {
+
+            }
+        }).catch(({message}:Error) => {
+           console.error(message);
         })
-        // .then(res => console.log(res))
-        // .catch(err => console.log(err))
-        console.log(data);
-        
     }, [])
 
     return (
