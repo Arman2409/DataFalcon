@@ -9,4 +9,5 @@ type UserType {
 
 type Query {
   GetUser(username: String!, password: String!): UserType!
+  CreateUser(username: String!, password: String!): UserType!
 }

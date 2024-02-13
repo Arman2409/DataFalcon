@@ -4,10 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
 import { join } from 'path';
 
-import { LoginModule } from './modules/login/login.module';
-import { LoginService } from './modules/login/login.service';
-import { LoginResolver } from './modules/login/login.resolver';
-
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -17,8 +13,7 @@ import { LoginResolver } from './modules/login/login.resolver';
       playground: true,
     }),
     ConfigModule.forRoot(),
-    LoginModule
   ],
-  providers: [LoginService, LoginResolver],
+  providers: [],
 })
 export class AppModule {}

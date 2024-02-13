@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# Lockfile
+pnpm-lock.yaml
+
 # Logs
 logs
 *.log

@@ -1,5 +1,5 @@
 import { configureStore, Store} from "@reduxjs/toolkit";
-import loginSlice from "./slices/loginSlice";
+import userSlice from "./slices/userSlice";
 
 // import type {Reducers} from "../types/storeTypes";
 // import userReducer from "./userSlice";
@@ -11,9 +11,7 @@ import loginSlice from "./slices/loginSlice";
 const reducers
 // :Reducers 
 = {
-    login: loginSlice
-    // user: userReducer,
-    // messages: messagesSlice,
+    user: userSlice   // messages: messagesSlice,
     // socket: socketSlice,
     // window: windowSlice,
 }
