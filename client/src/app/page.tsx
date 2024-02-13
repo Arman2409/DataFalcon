@@ -1,12 +1,10 @@
-import LeaderBoard from "./_components/pages/Home/LeaderBoard/LeaderBoard";
-import Rooms from "./_components/pages/Home/Rooms/Rooms";
+import UrlInput from "./_components/Home/UrlInput/UrlInput";
 import styles from "./page.module.scss";
 
 const HomePage = () => {
   return (
     <main className={styles.home_main}>
-        <Rooms />
-        <LeaderBoard />
+        <UrlInput />
     </main>
   );
 }

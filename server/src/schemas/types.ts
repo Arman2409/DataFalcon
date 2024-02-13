@@ -1,10 +1,10 @@
 import { Field, ObjectType } from "@nestjs/graphql"
 
 @ObjectType()
-export class  UserType {
+export class  ExtractedData {
     @Field()
-    name?: string
+    url?: string
 
     @Field()
-    bestScore: number
+    data: string
 }

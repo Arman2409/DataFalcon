@@ -27,6 +27,8 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/graphql": "^12.0.11",
     "@nestjs/platform-express": "^10.0.0",
+    "axios": "^1.6.7",
+    "cheerio": "1.0.0-rc.12",
     "graphql": "^16.8.1",
     "prisma": "^5.9.1",
     "reflect-metadata": "^0.1.13",

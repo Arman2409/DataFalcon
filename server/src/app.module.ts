@@ -4,6 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
 import { join } from 'path';
 
+import { ExtractModule } from './modules/extract/extract.module';
+import { ProcessService } from './modules/process/process.service';
+import { ProcessModule } from './modules/process/process.module';
+
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -13,7 +17,9 @@ import { join } from 'path';
       playground: true,
     }),
     ConfigModule.forRoot(),
+    ExtractModule,
+    ProcessModule,
   ],
-  providers: [],
+  providers: [ProcessService],
 })
 export class AppModule {}

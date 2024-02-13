@@ -2,12 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserType {
-  name: String!
-  bestScore: Float!
+type ExtractedData {
+  url: String!
+  data: String!
 }
 
 type Query {
-  GetUser(username: String!, password: String!): UserType!
-  CreateUser(username: String!, password: String!): UserType!
+  Extract(url: String!): ExtractedData!
 }

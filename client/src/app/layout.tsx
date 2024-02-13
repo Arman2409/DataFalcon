@@ -6,7 +6,7 @@ import StoreProvider from "../store/StoreProvider";
 import ApolloClientProvider from "../apollo/ApolloClientProvider";
 
 export const metadata: Metadata = {
-  title: "Tennis"
+  title: "DataFalcon"
 };
 
 
