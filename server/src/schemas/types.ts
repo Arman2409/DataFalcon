@@ -1,7 +1,7 @@
-import { Field, ObjectType } from "@nestjs/graphql"
+import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-export class  ExtractedData {
+export class ExtractedData {
     @Field()
     url?: string
 
