@@ -4,6 +4,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ExtractService } from './extract.service';
 import { ExtractResolver } from './extract.resolver';
 import { CustomLogger } from '../../tools/logger';
+import { ExtractController } from './extract.controller';
 
 @Module({
   providers: [ExtractService, ExtractResolver, CustomLogger],
@@ -12,6 +13,7 @@ import { CustomLogger } from '../../tools/logger';
       ttl: 5 * 60 * 1000, // Time to live (5 minutes)
       max: 100, // Maximum number of items in the cache
     }),
-  ]
+  ],
+  controllers: [ExtractController]
 })
 export class ExtractModule {}

@@ -9,7 +9,7 @@ export class ExtractResolver {
     constructor(private readonly extractService: ExtractService) {}
 
     @Query(() => ExtractedData || GraphQLError, {name: "Extract"})
-    async extract(@Args('url') url: string): Promise<ExtractedData|GraphQLError> {
+    async extract(@Args('url') url: string): Promise<ExtractedData|Error> {
         return this.extractService.extractData(url);
     }
 }

@@ -25,21 +25,29 @@ export class ExtractService {
                     .then(({ data }) => {
                         extractedData = data
                     });
+                this.cache.set(url, extractedData)
             }
-            const $ = load(extractedData);
+            return this.processData(extractedData);
+        } catch ({ message }) {
+            this.logger.error(message);
+            return new Error(message)
+        }
+    }
+
+    async processData(data: any) {
+        try {
+            const $ = load(data);
             const head = $("head");
             const body = $("body");
             const headModel = generateElementModel(head["0"]);
             const bodyModel = generateElementModel(body["0"]);
-            this.cache.set(url, extractedData)
             return ({
                 head: headModel,
                 body: bodyModel,
-                url
             })
         } catch ({ message }) {
             this.logger.error(message);
-            return new GraphQLError(message)
+            return new Error(message);
         }
     }
 }
