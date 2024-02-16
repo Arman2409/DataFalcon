@@ -18,6 +18,7 @@ const getChildren = (
 }
 
 const generateElementModel = (element: any) => {
+    if(!element) return [];
     let { name, children, id, class: classname, attribs, type, data } = element;
     if (!type) return [];
     let DOMModel = {};

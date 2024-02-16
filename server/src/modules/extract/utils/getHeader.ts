@@ -1,8 +1,8 @@
-const getHeader = (headModel:any) => {
+const getHeader = ({children}:any) => {
     let title = "";
     let description = "";
     let iconLink = "";
-    headModel.children.forEach(({name, attribName, rel, children}:any) => {
+    children.forEach(({name, attribName, rel, children}:any) => {
         if(name === "title") {
            title = children[0] ? children[0].data : ""; 
            return;

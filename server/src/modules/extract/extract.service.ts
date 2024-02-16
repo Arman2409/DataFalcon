@@ -16,25 +16,34 @@ export class ExtractService {
     async extractData(url: string) {
         try {
             let extractedData: any = {};
-            const cachedData = await this.cache.get(url);
-            if (cachedData) {
+            const cachedUrl = await this.cache.get(url);
+            let speed = 0;
+            if (cachedUrl) {
+                const { extractedData: cachedData = {}, speed: cachedSpeed = 0 }: any = cachedUrl;
+                speed = cachedSpeed;
                 extractedData = cachedData;
+                return this.processData(extractedData, speed);
             }
-            if (!cachedData) {
-                await axios.get(url)
-                    .then(({ data }) => {
-                        extractedData = data
-                    });
-                this.cache.set(url, extractedData)
-            }
-            return this.processData(extractedData);
+            const startTime = Date.now();
+            await axios.get(url)
+                .then(({ data }) => {
+                    extractedData = data
+                });
+            const endTime = Date.now();
+            speed = endTime - startTime;
+
+            this.cache.set(url, {
+                extractedData,
+                speed
+            })
+            return this.processData(extractedData, speed);
         } catch ({ message }) {
             this.logger.error(message);
             return new Error(message)
         }
     }
 
-    async processData(data: any) {
+    async processData(data: any, speed: number) {
         try {
             const $ = load(data);
             const head = $("head");
@@ -44,6 +53,7 @@ export class ExtractService {
             const bodyModel = generateElementModel(body["0"]);
             return ({
                 header,
+                speed,
                 model: {
                     head: headModel,
                     body: bodyModel,
