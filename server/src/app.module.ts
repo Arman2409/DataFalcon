@@ -10,12 +10,12 @@ import { ProcessModule } from './modules/process/process.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      context: ({ req, res }) => console.log(req.body),
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      playground: true,
-    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   context: ({ req, res }) => console.log(req.body),
+    //   autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    //   playground: true,
+    // }),
     ConfigModule.forRoot(),
     ExtractModule,
     ProcessModule,

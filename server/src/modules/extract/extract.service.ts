@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import axios from "axios";
 import { load } from "cheerio";
-import { GraphQLError } from 'graphql';
 import { Cache } from '@nestjs/cache-manager';
 
 import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './utils/generateElementModel';
+import getHeader from './utils/getHeader';
 
 @Injectable()
 export class ExtractService {
@@ -40,10 +40,14 @@ export class ExtractService {
             const head = $("head");
             const body = $("body");
             const headModel = generateElementModel(head["0"]);
+            const header = getHeader(headModel);
             const bodyModel = generateElementModel(body["0"]);
             return ({
-                head: headModel,
-                body: bodyModel,
+                header,
+                model: {
+                    head: headModel,
+                    body: bodyModel,
+                }
             })
         } catch ({ message }) {
             this.logger.error(message);
