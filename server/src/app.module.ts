@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from "@nestjs/graphql";
 import { ConfigModule } from '@nestjs/config';
-import { ApolloDriver, ApolloDriverConfig} from "@nestjs/apollo";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { join } from 'path';
 
 import { ExtractModule } from './modules/extract/extract.module';
@@ -12,7 +12,7 @@ import { ProcessModule } from './modules/process/process.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      context: ({ req, res}) => console.log(req.body),
+      context: ({ req, res }) => console.log(req.body),
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: true,
     }),
@@ -22,4 +22,4 @@ import { ProcessModule } from './modules/process/process.module';
   ],
   providers: [ProcessService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Query, Args } from "@nestjs/graphql";
+import { Query, Args, Context } from "@nestjs/graphql";
 import { GraphQLError } from 'graphql';
 
-import { ExtractedData } from "../../schemas/types";
+import { ExtractedData } from "../../schemas/graphqlTypes";
 import { ExtractService } from './extract.service';
 @Injectable()
 export class ExtractResolver {

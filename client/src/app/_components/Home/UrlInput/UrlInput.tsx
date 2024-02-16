@@ -7,10 +7,7 @@ import styles from "./styles/UrlInput.module.scss";
 const EXTRACT_QUERY = gql`
     query Extract($url: String!) {
         Extract(url: $url) {
-        # Specify the data you want to extract from the website
-        data
-        url
-        # ... other desired fields
+            url
         }
     }
 `
