@@ -1,26 +1,30 @@
 "use client"
 import { useCallback } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import axios from "axios";
 
 import styles from "./styles/UrlInput.module.scss";
 
-const EXTRACT_QUERY = gql`
-    query Extract($url: String!) {
-        Extract(url: $url) {
-            url
-        }
-    }
-`
+// const EXTRACT_QUERY = gql`
+//     query Extract($url: String!, $open: JSON!) {
+//         Extract(url: $url, open:$open) {
+//             url
+//         }
+//     }
+// `
 
 const UrlInput = () => {
-    const [extract] = useLazyQuery(EXTRACT_QUERY);
+    // const [extract] = useLazyQuery(EXTRACT_QUERY);
 
-    const extractData = useCallback((event: any) => {
+    const extractData = useCallback(async (event: any) => {
         event.preventDefault();
         const url = event.target["0"].value;
-        const result = extract({
-            variables: { url },
-          }).then(data => console.log("Got data", data));
+        // const result = extract({
+        //     variables: { url, open: [ 0 ] },
+        //   }).then(data => console.log("Got data", data));
+        const result = await axios.get("http://localhost:4000/extract",
+            {
+                params: { url }
+            });
         console.log(result);
     }, [])
 
