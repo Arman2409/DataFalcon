@@ -1,0 +1,19 @@
+.dom_element {
+    width: 500px;
+    height: 40px;
+    background-color: skyblue;
+    display: flex;
+    padding: 5px 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.dom_text_element {
+    @extend .dom_element;
+
+    background-color: green;
+    justify-content: center;
+    overflow: hidden;
+}

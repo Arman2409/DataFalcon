@@ -1,31 +1,18 @@
 "use client"
 import { useCallback } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
-
-// const EXTRACT_QUERY = gql`
-//     query Extract($url: String!, $open: JSON!) {
-//         Extract(url: $url, open:$open) {
-//             url
-//         }
-//     }
-// `
+import { extract } from "../../../../store/slices/extractedDataSlice";
 
 const UrlInput = () => {
-    // const [extract] = useLazyQuery(EXTRACT_QUERY);
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const extractData = useCallback(async (event: any) => {
         event.preventDefault();
         const url = event.target["0"].value;
-        // const result = extract({
-        //     variables: { url, open: [ 0 ] },
-        //   }).then(data => console.log("Got data", data));
-        const result = await axios.get("http://localhost:4000/extract",
-            {
-                params: { url }
-            });
-        console.log(result);
+        dispatch(extract(url));
     }, [])
 
     return (
