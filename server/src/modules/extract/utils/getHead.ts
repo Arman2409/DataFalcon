@@ -1,4 +1,4 @@
-const getHeader = ({children}:any) => {
+const getHead = ({children}:any) => {
     let title = "";
     let description = "";
     let iconLink = "";
@@ -23,4 +23,4 @@ const getHeader = ({children}:any) => {
     }
 }
 
-export default getHeader;
+export default getHead;

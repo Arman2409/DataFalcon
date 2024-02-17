@@ -1,19 +1,12 @@
 import { configureStore, Store} from "@reduxjs/toolkit";
-import userSlice from "./slices/userSlice";
+import extractedDataSlice from "./slices/extractedDataSlice";
 
 // import type {Reducers} from "../types/storeTypes";
-// import userReducer from "./userSlice";
-// import messagesSlice from "./messagesSlice";
-// import socketSlice from "./socketSlice";
-// import windowSlice from "./windowSlice";
-
 
 const reducers
 // :Reducers 
 = {
-    user: userSlice   // messages: messagesSlice,
-    // socket: socketSlice,
-    // window: windowSlice,
+    extractedData: extractedDataSlice 
 }
 
 const store:Store = configureStore({
@@ -21,5 +14,6 @@ const store:Store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false}),
 })
 
-export default store;
+export type AppDispatch = typeof store.dispatch;
 export type IRootState = ReturnType<typeof store.getState>; 
+export default store;

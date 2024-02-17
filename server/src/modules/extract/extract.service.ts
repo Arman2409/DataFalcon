@@ -5,7 +5,7 @@ import { Cache } from '@nestjs/cache-manager';
 
 import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './utils/generateElementModel';
-import getHeader from './utils/getHeader';
+import getHead from './utils/getHead';
 
 @Injectable()
 export class ExtractService {
@@ -49,10 +49,10 @@ export class ExtractService {
             const head = $("head");
             const body = $("body");
             const headModel = generateElementModel(head["0"]);
-            const header = getHeader(headModel);
             const bodyModel = generateElementModel(body["0"]);
+            const header = getHead(headModel);            
             return ({
-                header,
+                head: header,
                 speed,
                 model: {
                     head: headModel,

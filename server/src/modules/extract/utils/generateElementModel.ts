@@ -1,3 +1,5 @@
+import uniqueID from "./uniqueID";
+
 const getChildren = (
     children: any[],
     attribName: string,
@@ -24,6 +26,7 @@ const generateElementModel = (element: any) => {
     let DOMModel = {};
     if (type === 'text') {
         DOMModel = {
+            id: uniqueID(name),
             type,
             data
         }
@@ -31,9 +34,10 @@ const generateElementModel = (element: any) => {
     }
     const { name: attribName = "", rel = "", content = "" } = { ...attribs || {} }
     DOMModel = {
+        id: uniqueID(name),
         name,
-        class: classname,
-        id,
+        classname,
+        idname: id,
         type,
         children: getChildren(children, attribName, content),
     };
