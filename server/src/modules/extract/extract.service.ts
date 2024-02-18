@@ -6,6 +6,7 @@ import { Cache } from '@nestjs/cache-manager';
 import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './utils/generateElementModel';
 import getHead from './utils/getHead';
+import isValidUrl from "./utils/isValidUrl";
 
 @Injectable()
 export class ExtractService {
@@ -15,53 +16,69 @@ export class ExtractService {
 
     async extractData(url: string) {
         try {
+            const isUrlValid = isValidUrl(url);
+            if(!isUrlValid) {
+                throw new Error("Invalid URL");
+            }
             let extractedData: any = {};
             const cachedUrl = await this.cache.get(url);
             let speed = 0;
+            const {protocol, hostname} = new URL(url);
+            const baseUrl = `${protocol}://${hostname}`;  
             if (cachedUrl) {
                 const { extractedData: cachedData = {}, speed: cachedSpeed = 0 }: any = cachedUrl;
                 speed = cachedSpeed;
                 extractedData = cachedData;
-                return this.processData(extractedData, speed);
-            }
+                return this.processData(extractedData, speed, baseUrl);
+            }     
             const startTime = Date.now();
             await axios.get(url)
-                .then(({ data }) => {
+                .then(({ data }) => {                 
                     extractedData = data
                 });
             const endTime = Date.now();
             speed = endTime - startTime;
-
             this.cache.set(url, {
                 extractedData,
                 speed
             })
-            return this.processData(extractedData, speed);
-        } catch ({ message }) {
+            return this.processData(extractedData, speed, baseUrl);
+        } catch ({ message, response }) {
             this.logger.error(message);
-            return new Error(message)
+            const code = { ...response };
+            return {
+                code,
+                message
+            };
         }
     }
 
-    async processData(data: any, speed: number) {
+    async processData(data: any, speed: number, url:string) {
         try {
             const $ = load(data);
             const head = $("head");
             const body = $("body");
-            const headModel = generateElementModel(head["0"]);
-            const bodyModel = generateElementModel(body["0"]);
+            const links = [];
+            const images = [];
+            const headModel = generateElementModel(head["0"], links, images, url);
+            const bodyModel = generateElementModel(body["0"], links, images, url);
             const header = getHead(headModel);            
             return ({
                 head: header,
                 speed,
+                links,
                 model: {
                     head: headModel,
                     body: bodyModel,
                 }
             })
-        } catch ({ message }) {
+        } catch ({ message, response }) {
             this.logger.error(message);
-            return new Error(message);
+            const code = { ...response };
+            return {
+                code,
+                message
+            };
         }
     }
 }

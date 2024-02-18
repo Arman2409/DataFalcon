@@ -4,6 +4,9 @@ const getChildren = (
     children: any[],
     attribName: string,
     content: string,
+    links: any[],
+    images: any[],
+    url: string
 ) => {
     if (attribName === "description") {
         return [{
@@ -11,44 +14,70 @@ const getChildren = (
             data: content
         }]
     }
-    if (children.length) {
+    if (children?.length) {
         return children.flatMap((element: any) => {
-            return generateElementModel(element);
+            return generateElementModel(element, links, images, url);
         })
     }
     return [];
 }
 
-const generateElementModel = (element: any) => {
-    if(!element) return [];
+const generateElementModel = (
+    element: any,
+    links: any[],
+    images: any[],
+    url: string) => {
+    if (!element) return [];
     let { name, children, id, class: classname, attribs, type, data } = element;
     if (!type) return [];
-    let DOMModel = {};
+    let ElementModel = {};
     if (type === 'text') {
-        DOMModel = {
+        ElementModel = {
             id: uniqueID(name),
             type,
             data
         }
-        return DOMModel;
+        return ElementModel;
     }
-    const { name: attribName = "", rel = "", content = "" } = { ...attribs || {} }
-    DOMModel = {
+    const { name: attribName = "", rel = "", content = "", href = "" } = { ...attribs || {} }
+    ElementModel = {
         id: uniqueID(name),
         name,
         classname,
         idname: id,
         type,
-        children: getChildren(children, attribName, content),
+        children: getChildren(children, attribName, content, links, images, url),
     };
     if (rel || attribName) {
-        DOMModel = {
-            ...DOMModel,
+        ElementModel = {
+            ...ElementModel,
             attribName,
             rel,
         }
     }
-    return DOMModel;
+    if (name === "a") {
+        ElementModel = {
+            ...ElementModel,
+            href
+        }
+        links.push(ElementModel);
+    }
+    if (name === "img") {
+        let { src = "" } = { ...attribs };
+        if (!src.startsWith("http")) {
+            // If the image src is not a full URL, we need to make it one by app
+            if (src.startsWith("/")) {
+                src = url + src;
+                return;
+            }
+            src = url + "/" + src;
+        }
+        ElementModel = {
+            ...ElementModel,
+            src
+        }
+    }
+    return ElementModel;
 }
 
 export default generateElementModel;
