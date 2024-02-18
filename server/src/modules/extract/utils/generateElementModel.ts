@@ -5,7 +5,8 @@ const getChildren = (
     attribName: string,
     content: string,
     links: any[],
-    images: any[]
+    images: any[],
+    url: string
 ) => {
     if (attribName === "description") {
         return [{
@@ -15,7 +16,7 @@ const getChildren = (
     }
     if (children?.length) {
         return children.flatMap((element: any) => {
-            return generateElementModel(element, links, images);
+            return generateElementModel(element, links, images, url);
         })
     }
     return [];
@@ -24,7 +25,8 @@ const getChildren = (
 const generateElementModel = (
     element: any,
     links: any[],
-    images: any[]) => {
+    images: any[],
+    url: string) => {
     if (!element) return [];
     let { name, children, id, class: classname, attribs, type, data } = element;
     if (!type) return [];
@@ -44,7 +46,7 @@ const generateElementModel = (
         classname,
         idname: id,
         type,
-        children: getChildren(children, attribName, content, links, images),
+        children: getChildren(children, attribName, content, links, images, url),
     };
     if (rel || attribName) {
         ElementModel = {
@@ -60,9 +62,20 @@ const generateElementModel = (
         }
         links.push(ElementModel);
     }
-    if(name === "img") {
-        // console.log(attribs);
-        
+    if (name === "img") {
+        let { src = "" } = { ...attribs };
+        if (!src.startsWith("http")) {
+            // If the image src is not a full URL, we need to make it one by app
+            if (src.startsWith("/")) {
+                src = url + src;
+                return;
+            }
+            src = url + "/" + src;
+        }
+        ElementModel = {
+            ...ElementModel,
+            src
+        }
     }
     return ElementModel;
 }

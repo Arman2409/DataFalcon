@@ -6,7 +6,7 @@ import { Cache } from '@nestjs/cache-manager';
 import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './utils/generateElementModel';
 import getHead from './utils/getHead';
-import { url } from 'inspector';
+import isValidUrl from "./utils/isValidUrl";
 
 @Injectable()
 export class ExtractService {
@@ -16,6 +16,10 @@ export class ExtractService {
 
     async extractData(url: string) {
         try {
+            const isUrlValid = isValidUrl(url);
+            if(!isUrlValid) {
+                throw new Error("Invalid URL");
+            }
             let extractedData: any = {};
             const cachedUrl = await this.cache.get(url);
             let speed = 0;
@@ -29,7 +33,7 @@ export class ExtractService {
             }     
             const startTime = Date.now();
             await axios.get(url)
-                .then(({ data, request }) => {                 
+                .then(({ data }) => {                 
                     extractedData = data
                 });
             const endTime = Date.now();
@@ -56,8 +60,8 @@ export class ExtractService {
             const body = $("body");
             const links = [];
             const images = [];
-            const headModel = generateElementModel(head["0"], links, images);
-            const bodyModel = generateElementModel(body["0"], links, images);
+            const headModel = generateElementModel(head["0"], links, images, url);
+            const bodyModel = generateElementModel(body["0"], links, images, url);
             const header = getHead(headModel);            
             return ({
                 head: header,
