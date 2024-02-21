@@ -1,25 +1,26 @@
 "use client"
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./styles/DOMModel.module.scss";
 import DOMElement from "./components/DOMElement/DOMElement";
+import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import type { IRootState } from "../../../../store/store";
 
 const DOMModel = () => {
-    const [openElements, setOpenElements] = useState<string[]>([])
     const [domItems, setDomItems] = useState<any>([]);
+    const dispatch = useDispatch<any>();
     const { domModel } = useSelector((state: IRootState) => state.extractedData);
+    const { openElements } = useSelector((state: IRootState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
+        if(!id) return console.error("ID not provided");
         if (openElements.includes(id)) {
-            return setOpenElements(prevOpenElements => {
-                const index = prevOpenElements.indexOf(id);
-                return prevOpenElements.splice(index, 1);
-            })
+            const newArr = openElements.filter((elemID:string) => elemID !== id);
+            return dispatch(changeOpenElements(newArr));
         }
-        setOpenElements(prevOpenElements => [...prevOpenElements, id])
-    }, [openElements, setOpenElements, domItems, setDomItems])
+        dispatch(changeOpenElements([...openElements, id]));
+    }, [openElements, dispatch, changeOpenElements, domItems, setDomItems])
 
     useEffect(() => {
         const { head = null, body = null } = { ...domModel };
@@ -28,15 +29,16 @@ const DOMModel = () => {
 
     return (
         <div className={styles.main}>
-            {domItems.length ? domItems.map(({id, ...rest}: any) =>  (
-                    <DOMElement
-                        key={id}
-                        nestedCount={0}
-                        openElements={openElements}
-                        handleClick={clickElement}
-                        {...rest}
-                    />
-                )
+            {domItems.length ? domItems.map(({ id, ...rest }: any) => (
+                <DOMElement
+                    key={id}
+                    id={id}
+                    nestedCount={0}
+                    openElements={openElements}
+                    handleClick={clickElement}
+                    {...rest}
+                />
+            )
             ) : null}
         </div>
     )

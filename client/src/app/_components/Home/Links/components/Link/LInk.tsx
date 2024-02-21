@@ -2,9 +2,7 @@
 import styles from "./styles/Link.module.scss";
 
 const Link = ({ href, children }: any) => {
-    console.log(children);
-    
-    const name = children.find((child:any) => child.type === "text")?.data || "";
+    const name = children.find((child:any) => child?.type === "text")?.data || "";
 
     return (
         <div className={styles.main}>

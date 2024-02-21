@@ -47,7 +47,7 @@ const extractedDataSlice: Slice = createSlice({
          }
       })
       builder.addCase(extract.rejected, (state, action) => {
-         console.log(action.payload);
+         console.error(action.payload);
 
       })
    }

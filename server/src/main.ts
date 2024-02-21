@@ -8,7 +8,7 @@ async function bootstrap() {
     logger: ["error", "warn", "log"]
   });
   app.enableCors();
-  app.useGlobalFilters(new AllExceptionsFilter());
+  // app.useGlobalFilters(new AllExceptionsFilter());
   await app.listen(process.env.PORT);
 }
 bootstrap();
