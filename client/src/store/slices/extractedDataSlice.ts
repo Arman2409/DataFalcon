@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
 import axios from "axios";
-// import type {  UserInitialState } from "../types/storeTypes";
 
 // const EXTRACT_QUERY = gql`
 //     query Extract($url: String!, $open: JSON!) {
@@ -13,45 +12,45 @@ import axios from "axios";
 
 interface extractedInitialState {
    domModel: any,
-   speed: number
+   speed: number,
+   links: any[],
+   head: any[]
 }
 
-const initialState:extractedInitialState = {
+const initialState: extractedInitialState = {
    domModel: {},
-   speed: 0
+   speed: 0,
+   head: [],
+   links: []
 }
 
 export const extract = createAsyncThunk(
    "extractedData/createUser",
    async (url: string) => {
-       console.log(url);
-       const result = await axios.get("http://localhost:4000/extract",
-       {
-           params: { url }
-       });
-       return {...result.data};
+      const result = await axios.get("http://localhost:4000/extract",
+         { params: { url } });
+      return { ...result.data };
    }
 )
 
-const extractedDataSlice:Slice = createSlice({
-  name:  "extractedDataSlice",
-  initialState,
-  reducers: {
-    
-  },
-  extraReducers: (builder) => {
-   builder.addCase(extract.fulfilled, (state, action) => {
-      if(typeof action.payload === "object") {
-         const {model = {}, speed = 0} = {...action.payload}
-         state.domModel = model;
-         state.speed = speed;
-      }
-   })
-   builder.addCase(extract.rejected, (state, action) => {
-      console.log(action.payload);
+const extractedDataSlice: Slice = createSlice({
+   name: "extractedDataSlice",
+   initialState,
+   reducers: {},
+   extraReducers: (builder) => {
+      builder.addCase(extract.fulfilled, (state, { payload }) => {
+         if (typeof payload === "object") {
+            const { head = {}, model = {}, links = [] } = { ...payload };
+            state.domModel = {...model};
+            state.head = {...head};
+            state.links = [...links];
+         }
+      })
+      builder.addCase(extract.rejected, (state, action) => {
+         console.log(action.payload);
 
-   })
-}
+      })
+   }
 });
 
 export default extractedDataSlice.reducer;

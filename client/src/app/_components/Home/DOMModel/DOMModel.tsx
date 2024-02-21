@@ -4,11 +4,12 @@ import { useSelector } from "react-redux";
 
 import styles from "./styles/DOMModel.module.scss";
 import DOMElement from "./components/DOMElement/DOMElement";
+import type { IRootState } from "../../../../store/store";
 
 const DOMModel = () => {
-    const { domModel } = useSelector((state: any) => state.extractedData);
     const [openElements, setOpenElements] = useState<string[]>([])
     const [domItems, setDomItems] = useState<any>([]);
+    const { domModel } = useSelector((state: IRootState) => state.extractedData);
 
     const clickElement = useCallback((id: string) => {
         if (openElements.includes(id)) {
@@ -26,7 +27,7 @@ const DOMModel = () => {
     }, [domModel, setDomItems])
 
     return (
-        <div>
+        <div className={styles.main}>
             {domItems.length ? domItems.map(({id, ...rest}: any) =>  (
                     <DOMElement
                         key={id}

@@ -39,7 +39,7 @@ const generateElementModel = (
         }
         return ElementModel;
     }
-    const { name: attribName = "", rel = "", content = "", href = "" } = { ...attribs || {} }
+    const { name: attribName = "", rel = "", content = "" } = { ...attribs || {} }
     ElementModel = {
         id: uniqueID(name),
         name,
@@ -56,6 +56,11 @@ const generateElementModel = (
         }
     }
     if (name === "a") {
+        let { href = "" } = { ...attribs };
+        if (href.startsWith("/")) {    
+            href = url + href;
+        }
+
         ElementModel = {
             ...ElementModel,
             href
