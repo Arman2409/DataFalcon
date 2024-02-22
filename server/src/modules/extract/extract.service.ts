@@ -34,7 +34,7 @@ export class ExtractService {
             const startTime = Date.now();
             await axios.get(url)
                 .then(({ data }) => {                 
-                    extractedData = data
+                    extractedData = data;
                 });
             const endTime = Date.now();
             speed = endTime - startTime;

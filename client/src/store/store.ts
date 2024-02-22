@@ -1,12 +1,14 @@
 import { configureStore, Store} from "@reduxjs/toolkit";
 import extractedDataSlice from "./slices/extractedDataSlice";
+import domModelSlice from "./slices/domModelSlice";
 
 // import type {Reducers} from "../types/storeTypes";
 
 const reducers
 // :Reducers 
 = {
-    extractedData: extractedDataSlice 
+    extractedData: extractedDataSlice,
+    domModel: domModelSlice
 }
 
 const store:Store = configureStore({

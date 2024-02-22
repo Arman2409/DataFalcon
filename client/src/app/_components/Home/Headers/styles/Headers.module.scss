@@ -1,0 +1,27 @@
+@import "../../../../../styles/classes.scss";
+
+.main {
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+}
+
+.title {
+    @extend .center_content;
+
+    text-align: center;
+    color: red;
+    font-size: 30px;
+    width: 50%;
+    overflow-y: auto;
+}
+
+.description {
+    @extend .center_content;
+
+    color: blue;
+    font-size: 22px;
+    width: 50%;
+    overflow-y: auto;
+}
