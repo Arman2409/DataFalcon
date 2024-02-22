@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
-import "./globals.scss";
-import Header from "./_components/global/Header/Header";
+import "../styles/globals.scss";
 import StoreProvider from "../store/StoreProvider";
 import ApolloClientProvider from "../apollo/ApolloClientProvider";
+import Header from "./_components/global/Header/Header";
 
 export const metadata: Metadata = {
-  title: "DataFalcon"
+  title: "DataFalcon",
+  description: "Web Crawler"
 };
-
 
 const RootLayout = ({
   children,

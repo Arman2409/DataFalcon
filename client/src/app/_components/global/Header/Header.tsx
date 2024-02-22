@@ -5,13 +5,13 @@ const Header = () => {
         <div className={styles.header_main}>
             <div className={styles.logo_cont}>
                 <img
-                    alt=""
-                    src="/"
+                    alt="Data Falcon"
+                    src="/logo.png"
                     className={styles.logo}
                 />
-            </div>
-            <div className={styles.user_data_cont}>
-                
+                <h1 className={styles.logo_title}>
+                    Data Falcon
+                </h1>
             </div>
         </div>
     )
