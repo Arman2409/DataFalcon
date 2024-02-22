@@ -14,14 +14,16 @@ interface extractedInitialState {
    domModel: any,
    speed: number,
    links: any[],
-   head: any[]
+   head: any[],
+   images: any[]
 }
 
 const initialState: extractedInitialState = {
    domModel: {},
    speed: 0,
    head: [],
-   links: []
+   links: [],
+   images: []
 }
 
 export const extract = createAsyncThunk(
@@ -40,10 +42,11 @@ const extractedDataSlice: Slice = createSlice({
    extraReducers: (builder) => {
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
-            const { head = {}, model = {}, links = [] } = { ...payload };
+            const { head = {}, model = {}, links = [], images = [] } = { ...payload };
             state.domModel = {...model};
             state.head = {...head};
             state.links = [...links];
+            state.images = [...images];
          }
       })
       builder.addCase(extract.rejected, (state, action) => {
