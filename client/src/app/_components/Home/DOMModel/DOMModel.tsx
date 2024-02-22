@@ -20,12 +20,16 @@ const DOMModel = () => {
             return dispatch(changeOpenElements(newArr));
         }
         dispatch(changeOpenElements([...openElements, id]));
-    }, [openElements, dispatch, changeOpenElements, domItems, setDomItems])
+    }, [openElements, dispatch, changeOpenElements])
 
     useEffect(() => {
         const { head = null, body = null } = { ...domModel };
         if (head || body) setDomItems([head, body])
     }, [domModel, setDomItems])
+
+    useEffect(() => {
+        setDomItems((curr:any[]) => [...curr])
+    }, [setDomItems, openElements])
 
     return (
         <div className={styles.main}>

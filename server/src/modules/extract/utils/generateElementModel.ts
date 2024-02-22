@@ -6,7 +6,8 @@ const getChildren = (
     content: string,
     links: any[],
     images: any[],
-    url: string
+    url: string,
+    parents: string[] = [],
 ) => {
     if (attribName === "description") {
         return [{
@@ -16,7 +17,7 @@ const getChildren = (
     }
     if (children?.length) {
         return children.flatMap((element: any) => {
-            return generateElementModel(element, links, images, url);
+            return generateElementModel(element, links, images, url, parents);
         })
     }
     return [];
@@ -26,27 +27,31 @@ const generateElementModel = (
     element: any,
     links: any[],
     images: any[],
-    url: string) => {
+    url: string, 
+    parents: string[] = []) => {
     if (!element) return [];
     let { name, children, id, class: classname, attribs, type, data } = element;
     if (!type) return [];
     let ElementModel = {};
     if (type === 'text') {
         ElementModel = {
-            id: uniqueID(name),
+            id: uniqueID("text"),
             type,
-            data
+            data,
+            parents,
         }
         return ElementModel;
     }
     const { name: attribName = "", rel = "", content = "" } = { ...attribs || {} }
+    const uniqueId = uniqueID(name)
     ElementModel = {
-        id: uniqueID(name),
+        id: uniqueId,
         name,
         classname,
         idname: id,
         type,
-        children: getChildren(children, attribName, content, links, images, url),
+        parents,
+        children: getChildren(children, attribName, content, links, images, url, [...parents, uniqueId]),
     };
     if (rel || attribName) {
         ElementModel = {

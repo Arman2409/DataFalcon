@@ -18,12 +18,13 @@ const DOMElement = ({
     if (!children.length) return;
     handleClick(id);
   }, [handleClick])
-  
+
   if (type === "text") return (
     <div
       style={{
         marginLeft: nestedCount * 5 + "px"
       }}
+      id={id}
       className={styles.dom_text_element}
     >
       {data}
@@ -36,6 +37,7 @@ const DOMElement = ({
         style={{
           marginLeft: nestedCount * 5 + "px"
         }}
+        id={id}
         className={styles.dom_element}
       >
         <p>{name}</p>

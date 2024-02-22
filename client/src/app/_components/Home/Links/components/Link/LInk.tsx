@@ -1,11 +1,14 @@
 
 import styles from "./styles/Link.module.scss";
 
-const Link = ({ href, children }: any) => {
+const Link = ({ href, children, id, clickLink, parents,...rest }: any) => {
     const name = children.find((child:any) => child?.type === "text")?.data || "";
-
+    
     return (
-        <div className={styles.main}>
+        <div 
+          onClick={() => clickLink(id, parents)}
+          className={styles.main}
+        >
             <h5 className={styles.name}>
                 {name}
             </h5>
