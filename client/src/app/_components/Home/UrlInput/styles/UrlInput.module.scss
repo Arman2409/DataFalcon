@@ -17,7 +17,7 @@
     width: 750px;
     height: 60px;
     background-color: $color1;
-    background: linear-gradient(21deg, $color1, $color2);
+    background: linear-gradient(21deg, $color1, $color3);
     border-radius: 20px;
     border-color: linear-gradient(21deg, $color3, $color4);
     color: $color3;
@@ -32,15 +32,26 @@
     }
 }
 
+.clear_button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    left: -45px;
+    position: relative;
+    z-index: 2;
+}
+
 .submit_button {
     width: 160px;
     height: 60px;
     font-size: 20px;
-    color: $color3;
     background-color: $color4;
+    color: $color1;
+    font-weight: 900;
     position: relative;
-    left: -40px;
+    left: -65px;
     z-index: 0;
     border-radius: 20px;
+    padding-left: 10px;
     cursor: pointer;
 }
