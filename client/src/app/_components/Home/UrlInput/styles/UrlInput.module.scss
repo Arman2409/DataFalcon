@@ -13,7 +13,8 @@
 }
 
 .url_input {
-    padding: 0px 30px;
+    padding-left: 15px;
+    padding-right: 35px;
     width: 750px;
     height: 60px;
     background-color: $color1;
@@ -36,7 +37,7 @@
     cursor: pointer;
     width: 30px;
     height: 30px;
-    left: -32.5px;
+    left: -35px;
     position: relative;
     z-index: 2;
 }
