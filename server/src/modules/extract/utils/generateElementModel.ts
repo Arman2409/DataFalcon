@@ -1,3 +1,4 @@
+import fixProtocol from "./fixProtocol";
 import uniqueID from "./uniqueID";
 
 const getChildren = (
@@ -27,7 +28,7 @@ const generateElementModel = (
     element: any,
     links: any[],
     images: any[],
-    url: string, 
+    url: string,
     parents: string[] = []) => {
     if (!element) return [];
     let { name, children, id, class: classname, attribs, type, data } = element;
@@ -62,10 +63,10 @@ const generateElementModel = (
     }
     if (name === "a") {
         let { href = "" } = { ...attribs };
-        if (href.startsWith("/")) {    
+        if (href.startsWith("/")) {
             href = url + href;
         }
-
+        href = fixProtocol(href);
         ElementModel = {
             ...ElementModel,
             href
@@ -73,19 +74,22 @@ const generateElementModel = (
         links.push(ElementModel);
     }
     if (name === "img") {
-        let { src = "" } = { ...attribs };
+        let { src = "", alt = "" } = { ...attribs };
         if (!src.startsWith("http")) {
             // If the image src is not a full URL, we need to make it one by app
             if (src.startsWith("/")) {
                 src = url + src;
-                return;
+            } else {
+                src = url + "/" + src;
             }
-            src = url + "/" + src;
         }
+        src = fixProtocol(src);
         ElementModel = {
             ...ElementModel,
-            src
+            src,
+            alt
         }
+        images.push(ElementModel);
     }
     return ElementModel;
 }

@@ -62,11 +62,12 @@ export class ExtractService {
             const images = [];
             const headModel = generateElementModel(head["0"], links, images, url);
             const bodyModel = generateElementModel(body["0"], links, images, url);
-            const header = getHead(headModel);            
+            const header = getHead(headModel);                        
             return ({
                 head: header,
                 speed,
                 links,
+                images,
                 model: {
                     head: headModel,
                     body: bodyModel,
