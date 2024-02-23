@@ -27,10 +27,8 @@ const UrlInput = () => {
         setPlaceholder("");
     }, [setPlaceholder])
 
-    const changeChange = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
-        if (target.value === "") {
-            setPlaceholder("");
-        }
+    const changeUrl = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
+        if (target.value === "") setPlaceholder("");
     }, [setPlaceholder])
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const UrlInput = () => {
                     placeholder={placeholder}
                     ref={urlInput}
                     className={styles.url_input}
-                    onChange={changeChange}
+                    onChange={changeUrl}
                 />
                 <img
                     src="/clear.png"
@@ -67,7 +65,9 @@ const UrlInput = () => {
                     type="submit"
                     className={styles.submit_button}
                 >
-                    Submit
+                    <p className={styles.submit_text}>
+                        Submit
+                    </p>
                 </button>
             </form>
         </div>

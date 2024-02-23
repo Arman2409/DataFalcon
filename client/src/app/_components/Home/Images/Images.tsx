@@ -17,6 +17,9 @@ const Images = () => {
             style={{
                 height: images.length ? contHeight + "px" : "0px",
             }} >
+            <div className="section_title">
+                Images
+            </div>
             <div className={styles.slides_cont}>
                 {images.length ? images.map(({ id, ...rest }: any) => (
                     <Slide key={id} {...rest} />

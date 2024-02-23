@@ -11,11 +11,9 @@ const HomePage = () => {
     <main className={styles.home_main}>
       <UrlInput />
       <Headers />
-      <div style={{ display: "flex" }}>
+      <div className={styles.data_sections}>
         <Speed />
         <Images />
-      </div>
-      <div style={{ display: "flex" }}>
         <DOMModel />
         <Links />
       </div>

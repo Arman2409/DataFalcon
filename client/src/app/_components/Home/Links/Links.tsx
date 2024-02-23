@@ -35,6 +35,9 @@ const Links = () => {
 
     return (
         <div className={styles.main}>
+            <div className="section_title">
+                Links
+            </div>
             {linksToShow.map((linkData: any) => (
                 <Link
                     clickLink={clickLink}

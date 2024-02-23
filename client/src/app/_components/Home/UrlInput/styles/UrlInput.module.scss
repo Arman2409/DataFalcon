@@ -18,17 +18,17 @@
     width: 750px;
     height: 60px;
     background-color: $color1;
-    background: linear-gradient(21deg, $color1, $color3);
+    background: linear-gradient(21deg, $color4 0%, $color3 100%);
     border-radius: 20px;
-    border-color: linear-gradient(21deg, $color3, $color4);
-    color: $color3;
+    border: none;
+    color: $color1;
     font-size: 20px;
     position: relative;
     z-index: 2;
 
     &::placeholder {
         color: $color2;
-        opacity: 0.4;
+        opacity: 0.55;
         font-size: 22px;
     }
 }
@@ -55,4 +55,36 @@
     border-radius: 20px;
     padding-left: 10px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: none;
+
+    &::before {
+       content: "";
+       display: block;
+       width: 110%;
+       height: 100%;
+       position: absolute;
+       left: -100%;
+       transition: 1s;
+       top: 0px;
+       background-color: $color3;
+    }
+
+    &:hover {
+        &::before {
+            left: 0;
+        }
+        
+        & .submit_text {
+            color: $color4;
+        }
+    }
+}
+
+.submit_text {
+    transition: 1s;
+    position: relative;
+    z-index: 2;
+    color: $color3;
 }
