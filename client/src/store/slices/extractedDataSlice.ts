@@ -30,8 +30,10 @@ export const extract = createAsyncThunk(
    "extractedData/createUser",
    async (url: string) => {
       const result = await axios.get("http://localhost:4000/extract",
-         { params: { url } });
-      return { ...result.data };
+         { params: { url } }).catch(({message}) => {
+            console.error(message)
+         });
+      return { ...result?.data || {} };
    }
 )
 
@@ -42,11 +44,16 @@ const extractedDataSlice: Slice = createSlice({
    extraReducers: (builder) => {
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
-            const { head = {}, model = {}, links = [], images = [] } = { ...payload };
-            state.domModel = {...model};
-            state.head = {...head};
+            const { head = {},
+               model = {},
+               speed = 0,
+               links = [],
+               images = [] } = { ...payload };
+            state.domModel = { ...model };
+            state.head = { ...head };
             state.links = [...links];
             state.images = [...images];
+            state.speed = speed;
          }
       })
       builder.addCase(extract.rejected, (state, action) => {

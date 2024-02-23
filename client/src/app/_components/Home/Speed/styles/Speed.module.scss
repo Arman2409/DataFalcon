@@ -1,4 +1,68 @@
+@import "../../../../../styles/variables.scss";
+@import "../../../../../styles/classes.scss";
+
 .main {
+    @extend .center_content;
+
     width: 100%;
-    height: auto;
+    height: 250px;
+}
+
+.indicator {
+    @extend .center_content;
+
+    width: 150px;
+    height: 150px;
+    background-color:$color1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &::before {
+        content: "";
+        display: block;
+        width: 160px;
+        height: 75px;
+        position: absolute;
+        bottom: -5px;
+        left: -5px;
+        background-color: white;
+        z-index: 1;
+    }
+}
+
+
+
+@keyframes move {
+    to {
+      left: 0; /* End at the normal position */
+    }
+}
+.animating_cont {
+    width: 155px;
+    height: 155px;
+    position: absolute;
+    background-color: $color2;
+    left: -200px;
+    animation-name: move;
+    animation-play-state: paused;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.indicator_content {
+    @extend .center_content;
+
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    border-radius: 50%;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    background-color: $color2;
+    color: $color3;
+    font-size: 24px;
 }

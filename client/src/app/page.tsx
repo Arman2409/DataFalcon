@@ -12,8 +12,8 @@ const HomePage = () => {
       <UrlInput />
       <Headers />
       <div style={{ display: "flex" }}>
-        <Images />
         <Speed />
+        <Images />
       </div>
       <div style={{ display: "flex" }}>
         <DOMModel />
