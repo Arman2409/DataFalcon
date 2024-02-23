@@ -3,3 +3,8 @@
 .home_main {
     margin-top: $header_height;
 }
+
+.data_sections {
+    display: flex;
+    flex-wrap: wrap
+}

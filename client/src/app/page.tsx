@@ -2,6 +2,7 @@ import DOMModel from "./_components/Home/DOMModel/DOMModel";
 import Headers from "./_components/Home/Headers/Headers";
 import Images from "./_components/Home/Images/Images";
 import Links from "./_components/Home/Links/Links";
+import Speed from "./_components/Home/Speed/Speed";
 import UrlInput from "./_components/Home/UrlInput/UrlInput";
 import styles from "./page.module.scss";
 
@@ -10,8 +11,9 @@ const HomePage = () => {
     <main className={styles.home_main}>
       <UrlInput />
       <Headers />
-      <Images />
-      <div style={{ display: "flex" }}>
+      <div className={styles.data_sections}>
+        <Speed />
+        <Images />
         <DOMModel />
         <Links />
       </div>

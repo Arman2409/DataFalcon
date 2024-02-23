@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import styles from "./styles/Headers.module.scss";
-import { IRootState } from "../../../../store/store";
+import type { IRootState } from "../../../../store/store";
 
 const Headers = () => {
     const [title, setTitle] = useState<string>("");
@@ -22,11 +22,14 @@ const Headers = () => {
 
     return (
         <div className={styles.main}>
+            <div className="section_title">
+                Title and Description
+            </div>
             <h1 className={styles.title}>
                 {title}
             </h1>
             <h4 className={styles.description}>
-               {description}
+                {description}
             </h4>
         </div>
     )

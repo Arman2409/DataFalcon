@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 
 import styles from "./styles/DOMElement.module.scss";
+import configs from "../../../../../../configs/domModel.json";
+
+const { elementGap } = {...configs}
 
 const DOMElement = ({
   name,
@@ -22,7 +25,7 @@ const DOMElement = ({
   if (type === "text") return (
     <div
       style={{
-        marginLeft: nestedCount * 5 + "px"
+        marginLeft: nestedCount * elementGap + "px"
       }}
       id={id}
       className={styles.dom_text_element}
@@ -35,7 +38,7 @@ const DOMElement = ({
       <div
         onClick={click}
         style={{
-          marginLeft: nestedCount * 5 + "px"
+          marginLeft: nestedCount * elementGap + "px"
         }}
         id={id}
         className={styles.dom_element}

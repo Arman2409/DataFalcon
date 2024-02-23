@@ -1,5 +1,9 @@
 @import "../../../../../styles/classes.scss";
 
 .main {
-    width: 50%;
+    @extend .center_content;
+
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
 }

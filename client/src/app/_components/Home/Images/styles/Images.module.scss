@@ -1,8 +1,10 @@
 .main {
-    width: 100%;
+    width: 75vw;
     height: 120px;
     border: 1px solid green;
-
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .slides_cont {

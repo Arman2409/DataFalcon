@@ -5,8 +5,9 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
 import { extract } from "../../../../store/slices/extractedDataSlice";
+import configs from "../../../../configs/urlInput.json";
 
-const placeholderText = "https://... "
+const { placeholderText, placeholderInterval } = { ...configs };
 
 const UrlInput = () => {
     const [placeholder, setPlaceholder] = useState<string>("")
@@ -26,22 +27,20 @@ const UrlInput = () => {
         setPlaceholder("");
     }, [setPlaceholder])
 
-    const changeChange = useCallback(({target}: ChangeEvent<HTMLInputElement>) => {
-        if (target.value === "") {
-            setPlaceholder("");
-        }
+    const changeUrl = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
+        if (target.value === "") setPlaceholder("");
     }, [setPlaceholder])
 
     useEffect(() => {
-        if(inputInterval.current) return;
-         inputInterval.current = setInterval(() => {
+        if (inputInterval.current) return;
+        inputInterval.current = setInterval(() => {
             setPlaceholder((curr: string) => {
                 if (curr.length === placeholderText.length - 1) {
                     return "";
                 }
                 return curr + placeholderText[curr.length];
             })
-        }, 500)
+        }, placeholderInterval)
     }, [setPlaceholder])
 
     return (
@@ -55,7 +54,7 @@ const UrlInput = () => {
                     placeholder={placeholder}
                     ref={urlInput}
                     className={styles.url_input}
-                    onChange={changeChange}
+                    onChange={changeUrl}
                 />
                 <img
                     src="/clear.png"
@@ -66,7 +65,9 @@ const UrlInput = () => {
                     type="submit"
                     className={styles.submit_button}
                 >
-                    Submit
+                    <p className={styles.submit_text}>
+                        Submit
+                    </p>
                 </button>
             </form>
         </div>

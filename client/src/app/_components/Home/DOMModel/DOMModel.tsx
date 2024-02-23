@@ -33,6 +33,9 @@ const DOMModel = () => {
 
     return (
         <div className={styles.main}>
+            <div className="section_title">
+               DOM model
+            </div>
             {domItems.length ? domItems.map(({ id, ...rest }: any) => (
                 <DOMElement
                     key={id}
