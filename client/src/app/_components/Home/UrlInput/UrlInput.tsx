@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
-import { extract } from "../../../../store/slices/extractedDataSlice";
+import { extract, changeLoadingState } from "../../../../store/slices/extractedDataSlice";
 import configs from "../../../../configs/urlInput.json";
 
 const { placeholderText, placeholderInterval } = { ...configs };
@@ -16,11 +16,15 @@ const UrlInput = () => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const extractData = useCallback(async (event: any) => {
+        const { value = "" } = { ...document.activeElement as any }
+        const clearCache = value === "clearCache" ? true : false;
         event.preventDefault();
         const url = event.target["0"]?.value;
         if (!url) return console.error("URL is empty");
-        dispatch(extract(url));
+        dispatch(changeLoadingState(true));
+        dispatch(extract({url, clearCache}));
     }, [extract, dispatch])
+
 
     const clear = useCallback(() => {
         urlInput.current.value = "";
@@ -62,6 +66,7 @@ const UrlInput = () => {
                     className={styles.clear_button}
                 />
                 <button
+                    value="submit"
                     type="submit"
                     className={styles.submit_button}
                 >
@@ -69,6 +74,19 @@ const UrlInput = () => {
                         Submit
                     </p>
                 </button>
+                <div className={styles.retry_button_cont} >
+                    <button
+                        value="clearCache"
+                        type="submit"
+                        className={styles.retry_button}>
+                        <img
+                            src="/retry.png"
+                            alt="Retry"
+                            className={styles.retry_icon}
+                        />
+                        Clear cache and fetch again
+                    </button>
+                </div>
             </form>
         </div>
     )

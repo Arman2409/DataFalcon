@@ -15,7 +15,8 @@ interface extractedInitialState {
    speed: number,
    links: any[],
    head: any[],
-   images: any[]
+   images: any[],
+   loading: boolean,
 }
 
 const initialState: extractedInitialState = {
@@ -23,14 +24,15 @@ const initialState: extractedInitialState = {
    speed: 0,
    head: [],
    links: [],
-   images: []
+   images: [],
+   loading: false
 }
 
 export const extract = createAsyncThunk(
    "extractedData/createUser",
-   async (url: string) => {
+   async ({url, clearCache}:{url: string,  clearCache: boolean}) => {
       const result = await axios.get("http://localhost:4000/extract",
-         { params: { url } }).catch(({message}) => {
+         { params: { url, clearCache } }).catch(({message}) => {
             console.error(message)
          });
       return { ...result?.data || {} };
@@ -40,7 +42,11 @@ export const extract = createAsyncThunk(
 const extractedDataSlice: Slice = createSlice({
    name: "extractedDataSlice",
    initialState,
-   reducers: {},
+   reducers: {
+      changeLoadingState: (state, {payload}) => {
+         state.loading = payload
+     }
+   },
    extraReducers: (builder) => {
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
@@ -54,13 +60,13 @@ const extractedDataSlice: Slice = createSlice({
             state.links = [...links];
             state.images = [...images];
             state.speed = speed;
+            state.loading = false;
          }
       })
-      builder.addCase(extract.rejected, (state, action) => {
-         console.error(action.payload);
-
+      builder.addCase(extract.rejected, (state, {payload}) => {
+         console.error(payload);
       })
    }
 });
-
+export const { changeLoadingState } = extractedDataSlice.actions;
 export default extractedDataSlice.reducer;
