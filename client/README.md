@@ -1,13 +1,27 @@
-## Getting Started
+# Client side of Data Falcon
 
-First, run the development server:
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ npm install
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run dev
+
+# production mode
+$ npm run prod
+```
+
+## Build
+
+```bash
+# static build
+$ npm run build
 ```

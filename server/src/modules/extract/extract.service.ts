@@ -12,7 +12,7 @@ import isValidUrl from "./utils/isValidUrl";
 export class ExtractService {
     constructor(
         private readonly logger: CustomLogger,
-        private readonly cache: Cache) { }
+        private readonly cache: Cache) {}
 
     async extractData(url: string) {
         try {
@@ -53,7 +53,7 @@ export class ExtractService {
         }
     }
 
-    async processData(data: any, speed: number, url:string) {
+    async processData(data: any, speed: number, url:string):Promise<any> {
         try {
             const $ = load(data);
             const head = $("head");

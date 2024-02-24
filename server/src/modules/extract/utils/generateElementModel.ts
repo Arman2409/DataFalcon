@@ -1,18 +1,22 @@
 import fixProtocol from "./fixProtocol";
 import uniqueID from "./uniqueID";
 
+import type { ElementModel } from "../../../types/extract";
+
 const getChildren = (
-    children: any[],
+    children: ElementModel[],
     attribName: string,
     content: string,
-    links: any[],
-    images: any[],
+    links: ElementModel[],
+    images: ElementModel[],
     url: string,
     parents: string[] = [],
 ) => {
     if (attribName === "description") {
         return [{
+            id: uniqueID("description"),
             type: "text",
+            name: "description",
             data: content
         }]
     }
@@ -24,28 +28,48 @@ const getChildren = (
     return [];
 }
 
+const updateLinkModel = (
+    elementModel: ElementModel,
+     href: string, 
+     links: ElementModel[], 
+     url: string): void => {
+    if (elementModel.name === "a") {
+        let updatedHref = href?.startsWith("/") ? url + href : fixProtocol(href || "");
+        links.push({ ...elementModel, href: updatedHref });
+    }
+};
+
+const updateImageModel = (elementModel: ElementModel, images: ElementModel[], url: string): void => {
+    if (elementModel.name === "img") {
+        let updatedSrc = !elementModel.src?.startsWith("http") ? (elementModel.src?.startsWith("/") ? url + elementModel.src : url + "/" + elementModel.src) : fixProtocol(elementModel.src || "");
+        images.push({ ...elementModel, src: updatedSrc });
+    }
+};
+
 const generateElementModel = (
     element: any,
-    links: any[],
-    images: any[],
+    links: ElementModel[],
+    images: ElementModel[],
     url: string,
-    parents: string[] = []) => {
-    if (!element) return [];
-    let { name, children, id, class: classname, attribs, type, data } = element;
-    if (!type) return [];
-    let ElementModel = {};
+    parents: string[] = []
+): ElementModel | ElementModel[] => {
+    if (!element || !element.type) return [];
+
+    const { name, children, id, class: classname, attribs, type, data } = element;
+    const { name: attribName = "", rel = "", content = "", href = "", src = "", alt = "" } = { ...attribs || {} };
+
     if (type === 'text') {
-        ElementModel = {
+        return ({
             id: uniqueID("text"),
+            name: "text",
             type,
             data,
             parents,
-        }
-        return ElementModel;
+        });
     }
-    const { name: attribName = "", rel = "", content = "" } = { ...attribs || {} }
-    const uniqueId = uniqueID(name)
-    ElementModel = {
+
+    const uniqueId = uniqueID(name);
+    const elementModel: ElementModel = {
         id: uniqueId,
         name,
         classname,
@@ -54,44 +78,16 @@ const generateElementModel = (
         parents,
         children: getChildren(children, attribName, content, links, images, url, [...parents, uniqueId]),
     };
+
     if (rel || attribName) {
-        ElementModel = {
-            ...ElementModel,
-            attribName,
-            rel,
-        }
+        elementModel.attribName = attribName;
+        elementModel.rel = rel;
     }
-    if (name === "a") {
-        let { href = "" } = { ...attribs };
-        if (href.startsWith("/")) {
-            href = url + href;
-        }
-        href = fixProtocol(href);
-        ElementModel = {
-            ...ElementModel,
-            href
-        }
-        links.push(ElementModel);
-    }
-    if (name === "img") {
-        let { src = "", alt = "" } = { ...attribs };
-        if (!src.startsWith("http")) {
-            // If the image src is not a full URL, we need to make it one by app
-            if (src.startsWith("/")) {
-                src = url + src;
-            } else {
-                src = url + "/" + src;
-            }
-        }
-        src = fixProtocol(src);
-        ElementModel = {
-            ...ElementModel,
-            src,
-            alt
-        }
-        images.push(ElementModel);
-    }
-    return ElementModel;
-}
+
+    updateLinkModel(elementModel, href, links, url);
+    updateImageModel(elementModel, images, url);
+
+    return elementModel;
+};
 
 export default generateElementModel;
