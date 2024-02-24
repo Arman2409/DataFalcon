@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import styles from "./styles/DOMElement.module.scss";
 import configs from "../../../../../../configs/domModel.json";
+import type { DomElementProps } from "../../../../../../types/props";
 
 const { elementGap } = {...configs}
 
@@ -15,7 +16,7 @@ const DOMElement = ({
   openElements,
   idname,
   classname,
-  handleClick }: any) => {
+  handleClick }: DomElementProps) => {
 
   const click = useCallback(() => {
     if (!children.length) return;

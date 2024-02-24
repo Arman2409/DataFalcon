@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 import styles from "./styles/Slide.module.scss";
+import type { SlideProps } from "../../../../../../types/props";
 
 const Slide = ({
     src,
     alt
-}: any) => {
+}: SlideProps) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const loadImage = useCallback((info: any) => {
