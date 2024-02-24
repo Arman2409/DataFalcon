@@ -53,7 +53,7 @@ export class ExtractService {
         }
     }
 
-    async processData(data: any, speed: number, url:string) {
+    async processData(data: any, speed: number, url:string):Promise<any> {
         try {
             const $ = load(data);
             const head = $("head");
