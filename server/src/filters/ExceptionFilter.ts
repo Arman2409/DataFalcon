@@ -4,9 +4,9 @@ import { CustomLogger } from 'src/tools/logger';
 @Catch() // Catches all exceptions
 @Injectable()
 export class AllExceptionsFilter implements ExceptionFilter {
-    private readonly logger:CustomLogger
+    constructor(private readonly logger: CustomLogger) {}
 
-    catch(exception: any) {
+    catch(exception: Error) {
         let {message} = exception;
         this.logger.error(message);
     }

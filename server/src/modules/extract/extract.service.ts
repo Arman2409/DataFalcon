@@ -12,7 +12,7 @@ import isValidUrl from "./utils/isValidUrl";
 export class ExtractService {
     constructor(
         private readonly logger: CustomLogger,
-        private readonly cache: Cache) { }
+        private readonly cache: Cache) {}
 
     async extractData(url: string) {
         try {

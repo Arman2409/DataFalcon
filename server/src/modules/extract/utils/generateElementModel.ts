@@ -28,7 +28,11 @@ const getChildren = (
     return [];
 }
 
-const updateLinkModel = (elementModel: ElementModel, href:string, links: ElementModel[], url: string): void => {
+const updateLinkModel = (
+    elementModel: ElementModel,
+     href: string, 
+     links: ElementModel[], 
+     url: string): void => {
     if (elementModel.name === "a") {
         let updatedHref = href?.startsWith("/") ? url + href : fixProtocol(href || "");
         links.push({ ...elementModel, href: updatedHref });
@@ -50,7 +54,7 @@ const generateElementModel = (
     parents: string[] = []
 ): ElementModel | ElementModel[] => {
     if (!element || !element.type) return [];
-    
+
     const { name, children, id, class: classname, attribs, type, data } = element;
     const { name: attribName = "", rel = "", content = "", href = "", src = "", alt = "" } = { ...attribs || {} };
 
