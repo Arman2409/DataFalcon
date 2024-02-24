@@ -1,31 +1,27 @@
+# Server side of Data Falcon
+
 ## Installation
 
 ```bash
-$ pnpm install
+$ npm install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ pnpm run start
+$ npm run start
 
 # watch mode
-$ pnpm run dev
+$ npm run dev
 
 # production mode
-$ pnpm run prod
+$ npm run prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+$ npm run test
 ```
