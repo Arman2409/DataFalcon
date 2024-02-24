@@ -1,14 +1,18 @@
+@import "../../../../../styles/classes.scss";
+
 .main {
-    width: 75vw;
-    height: 120px;
+    @extend .center_content;
+
+    width: 50vw;
     border: 1px solid green;
-    display: flex;
-    align-items: center;
     flex-direction: column;
+    position: relative;
+    padding: 30px;
+    height: 250px;
 }
 
 .slides_cont {
-    height: 100%;
+    height: auto;
     border: 1px solid blue;
     display: flex;
 }

@@ -2,9 +2,15 @@
 
 .home_main {
     margin-top: $header_height;
+    height: auto;
 }
 
 .data_sections {
     display: flex;
-    flex-wrap: wrap
+}
+
+.data_sections_bottom {
+    display: flex;
+    border-top: 1px solid $color4;
+    margin-top: 25px;
 }

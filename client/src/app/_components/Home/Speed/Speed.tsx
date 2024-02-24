@@ -10,22 +10,17 @@ const { speedChangeInterlval } = { ...configs };
 
 const Speed = () => {
     const [speedNumber, setSpeedNumber] = useState<number>(0)
-    const indicatorAnimation = useRef<any>();
+    const [animatingLeft, setAnimatingLeft] = useState<number>(200);
     const speedInterval = useRef<any>();
-    const indicator = useRef<any>();
     const { speed } = useSelector((state: IRootState) => state.extractedData);
 
     useEffect(() => {
         if (speed) {
             setSpeedNumber(0);
-            if (indicatorAnimation.current) {
-                indicator.current.removeChild(indicatorAnimation.current);
-            }
-            indicatorAnimation.current = document.createElement("div");
-            indicatorAnimation.current.setAttribute("class", styles.animating_cont);
-            indicator.current.appendChild(indicatorAnimation.current);
+            setAnimatingLeft(200);
             if (speedInterval.current) clearInterval(speedInterval.current);
             speedInterval.current = setInterval(() => {
+                setAnimatingLeft(prevValue => prevValue - 200 / speed );
                 setSpeedNumber((curr: number) => {
                     if (curr === speed - 1) clearInterval(speedInterval.current);
                     return curr += 1;
@@ -40,11 +35,18 @@ const Speed = () => {
                 Speed
             </div>
             <div
-                ref={indicator}
                 className={styles.indicator}>
+                    <div 
+                      className={styles.animating_cont}
+                      style={{
+                        left: -animatingLeft  + "px",
+                      }} 
+                    />
                 <div
                     className={styles.indicator_content} >
                     {speedNumber}
+                   <p className={styles.indicator_ms}>ms</p>
+                    
                 </div>
             </div>
         </div>

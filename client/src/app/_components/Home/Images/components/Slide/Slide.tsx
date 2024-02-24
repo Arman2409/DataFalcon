@@ -7,18 +7,18 @@ const Slide = ({
 }: any) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    const loadImage = useCallback((info:any) => {
-       setLoaded(true);
+    const loadImage = useCallback((info: any) => {
+        setLoaded(true);
     }, [setLoaded])
-    
+
     return (
         <div
             className={styles.main}>
-            <img
+            {loaded ? <img
                 src={src}
                 onLoad={loadImage}
                 className={styles.image}>
-            </img>
+            </img> : alt}
         </div>
     )
 }

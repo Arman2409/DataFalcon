@@ -11,11 +11,13 @@ const HomePage = () => {
   return (
     <main className={styles.home_main}>
       <UrlInput />
-      <Headers />
+      <Loading />
       <div className={styles.data_sections}>
-        <Loading />
+        <Headers />
         <Speed />
         <Images />
+      </div>
+      <div className={styles.data_sections}>
         <DOMModel />
         <Links />
       </div>
