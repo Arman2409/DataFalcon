@@ -5,7 +5,7 @@ interface DOMModelInitialState {
 }
 
 const initialState: DOMModelInitialState = {
-    openElements: []
+    openElements: [],
 }
 
 const domModelSlice: Slice = createSlice({
@@ -14,7 +14,7 @@ const domModelSlice: Slice = createSlice({
     reducers: {
         changeOpenElements: (state, {payload}) => {
            state.openElements = [...payload]
-        }
+        },
     },
 });
 

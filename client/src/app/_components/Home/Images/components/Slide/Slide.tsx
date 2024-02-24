@@ -1,24 +1,25 @@
 import { useCallback, useState } from "react";
 import styles from "./styles/Slide.module.scss";
+import type { SlideProps } from "../../../../../../types/props";
 
 const Slide = ({
     src,
     alt
-}: any) => {
+}: SlideProps) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    const loadImage = useCallback((info:any) => {
-       setLoaded(true);
+    const loadImage = useCallback((info: any) => {
+        setLoaded(true);
     }, [setLoaded])
-    
+
     return (
         <div
             className={styles.main}>
-            <img
+            {loaded ? <img
                 src={src}
                 onLoad={loadImage}
                 className={styles.image}>
-            </img>
+            </img> : alt}
         </div>
     )
 }
