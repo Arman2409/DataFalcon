@@ -7,6 +7,7 @@ import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './utils/generateElementModel';
 import getHead from './utils/getHead';
 import isValidUrl from "./utils/isValidUrl";
+import type { ElementModel } from '../../../../types/global';
 
 @Injectable()
 export class ExtractService {
@@ -62,7 +63,7 @@ export class ExtractService {
             const images = [];
             const headModel = generateElementModel(head["0"], links, images, url);
             const bodyModel = generateElementModel(body["0"], links, images, url);
-            const header = getHead(headModel);                        
+            const header = getHead(headModel as ElementModel);                        
             return ({
                 head: header,
                 speed,

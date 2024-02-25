@@ -4,9 +4,8 @@
     @extend .center_content;
 
     width: 50vw;
-    display: flex;
-    flex-direction: column;
     position: relative;
     padding: 30px;
-
+    flex-direction: column;
+    justify-content: flex-start;
 }

@@ -6,11 +6,12 @@ export type ElementModel = {
     idname?: string;
     class?: string,
     parents?: string[];
-    children?: ElementModel[];
+    children?: ElementModel[] | undefined;
     attribName?: string;
     rel?: string;
     data?: string;
     href?: string;
     src?: string;
     alt?: string;
+    attribs?: any;
 };

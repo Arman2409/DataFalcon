@@ -1,15 +1,17 @@
 "use client"
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/DOMModel.module.scss";
 import DOMElement from "./components/DOMElement/DOMElement";
 import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import type { IRootState } from "../../../../store/store";
+import type { ElementModel } from "../../../../../../types/global";
 
 const DOMModel = () => {
-    const [domItems, setDomItems] = useState<any>([]);
-    const dispatch = useDispatch<any>();
+    const [domItems, setDomItems] = useState<ElementModel[]>([]);
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const { domModel } = useSelector((state: IRootState) => state.extractedData);
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
@@ -28,15 +30,15 @@ const DOMModel = () => {
     }, [domModel, setDomItems])
 
     useEffect(() => {
-        setDomItems((curr:any[]) => [...curr])
+        setDomItems(curr => [...curr])
     }, [setDomItems, openElements])
 
     return (
         <div className={styles.main}>
-            <div className="section_title">
+            {domItems.length ? <div className="section_title">
                DOM model
-            </div>
-            {domItems.length ? domItems.map(({ id, ...rest }: any) => (
+            </div> : null}
+            {domItems.length ? domItems.map(({ id, ...rest }) => (
                 <DOMElement
                     key={id}
                     id={id}

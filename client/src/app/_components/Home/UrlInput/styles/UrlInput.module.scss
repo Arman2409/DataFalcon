@@ -5,11 +5,13 @@
     width: 100%;
     height: auto;
     border: 1px solid red;
-    padding: 50px;
+    padding: 25px 15px;
 }
 
 .form {
     @extend .center_content;
+
+    justify-content: flex-start;
 }
 
 .url_input {
@@ -93,7 +95,8 @@
 .retry_button_cont {
     @extend .center_content;
 
-    width: 300px;
+    width: auto;
+    padding: 25px;
 }
 
 .retry_icon {
@@ -108,11 +111,15 @@
     font-size: 0px;
     cursor: pointer;
     color: $color3;
+    border: none;
+    border-radius: 50%;
 
     &:hover {
         font-size: 22px;
         width: 300px;
         transition: 0.5s;
+        border-radius: 20px;
+
 
         & .retry_icon {
             display: none;

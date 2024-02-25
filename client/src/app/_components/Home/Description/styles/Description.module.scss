@@ -1,0 +1,29 @@
+@import "../../../../../styles/classes.scss";
+@import "../../../../../styles/variables.scss";
+
+.description_main {
+    @extend .center_content;
+
+    padding: 15px;
+    justify-content: flex-start;
+    width: 100%;
+    height: 80px;
+}
+
+.description_title {
+    font-size: 30px;
+    color: $color3;
+    font-family: "Rocher";
+    text-shadow: -0.01em -0.01em 0.01em #000;
+    animation: rise 4s ease-in-out 0.5s forwards;
+
+    @keyframes rise {
+        to {
+            text-shadow: 0em 0.01em $color2, 0em 0.02em $color2, 0em 0.02em 0.03em $color2,
+                -0.01em 0.01em $color3, -0.02em 0.02em $color3, -0.03em 0.03em $color3,
+                -0.04em 0.04em $color3, -0.01em -0.01em 0.03em #000, -0.02em -0.02em 0.03em #000,
+                -0.03em -0.03em 0.03em #000;
+            transform: translateY(-0.025em) translateX(0.04em);
+        }
+    }
+}

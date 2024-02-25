@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import styles from "./styles/DOMElement.module.scss";
 import configs from "../../../../../../configs/domModel.json";
 import type { DomElementProps } from "../../../../../../types/props";
+import type { ElementModel} from "../../../../../../../../types/global";
 
 const { elementGap } = {...configs}
 
@@ -19,7 +20,7 @@ const DOMElement = ({
   handleClick }: DomElementProps) => {
 
   const click = useCallback(() => {
-    if (!children.length) return;
+    if (!children?.length) return;
     handleClick(id);
   }, [handleClick])
 
@@ -49,8 +50,8 @@ const DOMElement = ({
         <p>class:{classname}</p>
         <p>children:{children?.length}</p>
       </div>
-      {openElements.includes(id) && children.length ? children.map(
-        (child: any) => (
+      {openElements.includes(id) && children?.length ? children.map(
+        (child: ElementModel) => (
           <DOMElement
             key={id}
             nestedCount={nestedCount + 1}
