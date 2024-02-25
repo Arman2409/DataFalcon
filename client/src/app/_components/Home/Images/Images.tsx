@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import styles from "./styles/Images.module.scss";
 import Slide from "./components/Slide/Slide";
 import type { IRootState } from "../../../../store/store";
-import type { ElementModel } from "../../../../../../types/global";
+import type { ElementModel } from "../../../../types/globals";
 
 const Images = () => {
     const { images } = useSelector((state: IRootState) => state.extractedData);

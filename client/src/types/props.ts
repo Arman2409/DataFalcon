@@ -1,4 +1,4 @@
-import { ElementModel } from "../../../types/global"
+import type { ElementModel } from "../types/globals"
 
 export interface DomElementProps extends ElementModel {
     nestedCount: number

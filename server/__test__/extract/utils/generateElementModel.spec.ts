@@ -1,5 +1,5 @@
-import { ElementModel } from "../../../../types/global";
-import generateElementModel from "../../../src/modules/extract/utils/generateElementModel";
+import { ElementModel } from "../../../types/extract";
+import generateElementModel from "../../../src/modules/extract/mainFunctions/generateElementModel";
 
 const element = {
     id: "0",

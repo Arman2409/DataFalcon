@@ -4,10 +4,10 @@ import { load } from "cheerio";
 import { Cache } from '@nestjs/cache-manager';
 
 import { CustomLogger } from '../../tools/logger';
-import generateElementModel from './utils/generateElementModel';
-import getHead from './utils/getHead';
-import isValidUrl from "./utils/isValidUrl";
-import type { ElementModel } from '../../../../types/global';
+import generateElementModel from './mainFunctions/generateElementModel';
+import getHead from './mainFunctions/getHead';
+import isValidUrl from "./mainFunctions/isValidUrl";
+import type { ElementModel } from '../../../types/extract';
 
 @Injectable()
 export class ExtractService {

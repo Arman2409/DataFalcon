@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import styles from "./styles/DOMElement.module.scss";
 import configs from "../../../../../../configs/domModel.json";
 import type { DomElementProps } from "../../../../../../types/props";
-import type { ElementModel} from "../../../../../../../../types/global";
+import type { ElementModel} from "../../../../../../types/globals";
 
 const { elementGap } = {...configs}
 

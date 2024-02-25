@@ -1,4 +1,4 @@
-import type { ElementModel } from "../../../../../types/global";
+import type { ElementModel } from "../../../../types/extract";
 
 const getHead = ({children}:ElementModel) => {
     let title = "";

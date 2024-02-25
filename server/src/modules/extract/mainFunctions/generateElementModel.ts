@@ -1,7 +1,7 @@
-import fixProtocol from "./fixProtocol";
-import uniqueID from "./uniqueID";
+import fixProtocol from "../helpers/fixProtocol";
+import uniqueID from "../helpers/uniqueID";
 
-import type { ElementModel } from "../../../../../types/global";
+import type { ElementModel } from "../../../../types/extract";
 
 const getChildren = (
     children: ElementModel[],
@@ -30,12 +30,15 @@ const getChildren = (
 
 const updateLinkModel = (
     elementModel: ElementModel,
-     href: string, 
-     links: ElementModel[], 
-     url: string): void => {
+    href: string,
+    links: ElementModel[],
+    url: string): void => {
     if (elementModel.name === "a") {
         let updatedHref = href?.startsWith("/") ? url + href : fixProtocol(href || "");
-        links.push({ ...elementModel, href: updatedHref });
+        links.push({
+            ...elementModel,
+            href: updatedHref
+        });
     }
 };
 

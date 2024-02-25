@@ -1,4 +1,5 @@
-import getHead from "../../../src/modules/extract/utils/getHead";
+import getHead from "../../../src/modules/extract/mainFunctions/getHead";
+import type { ElementModel } from "../../../types/extract";
 
 const data = {
     children: [
@@ -15,7 +16,7 @@ const data = {
 
 describe("getHead", () => {
     it("should return title", () => {
-       const {title} = getHead(data);
+       const {title} = getHead(data as ElementModel);
 
        expect(title).toBe("title");
     })
