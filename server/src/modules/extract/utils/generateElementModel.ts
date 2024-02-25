@@ -1,7 +1,7 @@
 import fixProtocol from "./fixProtocol";
 import uniqueID from "./uniqueID";
 
-import type { ElementModel } from "../../../types/extract";
+import type { ElementModel } from "../../../../../types/global";
 
 const getChildren = (
     children: ElementModel[],

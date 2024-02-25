@@ -31,9 +31,9 @@ const Speed = () => {
 
     return (
         <div className={styles.main}>
-            <div className="section_title">
+            {speed ? <div className="section_title">
                 Speed
-            </div>
+            </div> : null}
             <div
                 className={styles.indicator}>
                     <div 

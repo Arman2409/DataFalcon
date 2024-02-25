@@ -1,18 +1,20 @@
 "use client"
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/Links.module.scss";
 import Link from "./components/Link/LInk";
 import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import configs from "../../../../configs/links.json";
 import type { IRootState } from "../../../../store/store";
+import type { ElementModel } from "../../../../../../types/global";
 
-const { waitBeforeScroll, scrollExtra} = {...configs}
+const { waitBeforeScroll, scrollExtra } = { ...configs }
 
 const Links = () => {
-    const [linksToShow, setLinksToShow] = useState<any[]>([]);
-    const dispatch = useDispatch<any>();
+    const [linksToShow, setLinksToShow] = useState<ElementModel[]>([]);
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const { links } = useSelector((state: IRootState) => state.extractedData);
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
@@ -20,14 +22,14 @@ const Links = () => {
         const newOpenElements = [...openElements, ...parents, id]
         dispatch(changeOpenElements(newOpenElements));
         setTimeout(() => {
-            const element:any = document.getElementById(id); 
-            const desiredPosition = element.offsetTop - scrollExtra;
-            window.scrollTo({ 
-                 top: desiredPosition,
-                 behavior: 'smooth' 
-                });
+            const { offsetTop = 0} = document.getElementById(id) || {};
+            const desiredPosition = offsetTop - scrollExtra;
+            window.scrollTo({
+                top: desiredPosition,
+                behavior: 'smooth'
+            });
         }, waitBeforeScroll + 50)
-    }, [changeOpenElements, openElements, dispatch, ])
+    }, [changeOpenElements, openElements, dispatch,])
 
     useEffect(() => {
         setLinksToShow(links);
@@ -35,10 +37,10 @@ const Links = () => {
 
     return (
         <div className={styles.main}>
-            <div className="section_title">
+            {links.length ? <div className="section_title">
                 Links
-            </div>
-            {linksToShow.map((linkData: any) => (
+            </div> : null}
+            {linksToShow.map(linkData => (
                 <Link
                     clickLink={clickLink}
                     {...linkData}

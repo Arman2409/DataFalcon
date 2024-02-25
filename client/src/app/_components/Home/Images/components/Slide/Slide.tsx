@@ -8,9 +8,7 @@ const Slide = ({
 }: SlideProps) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    const loadImage = useCallback((info: any) => {
-        setLoaded(true);
-    }, [setLoaded])
+    const loadImage = useCallback(() => setLoaded(true), [setLoaded])
 
     return (
         <div

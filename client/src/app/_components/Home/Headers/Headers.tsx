@@ -8,7 +8,7 @@ import type { IRootState } from "../../../../store/store";
 const Headers = () => {
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [logo, setLogo] = useState<any>("");
+    const [logo, setLogo] = useState<string>("");
 
     // Get the current title and description from Redux store
     const { head } = useSelector((state: IRootState) => state.extractedData);
@@ -22,9 +22,9 @@ const Headers = () => {
 
     return (
         <div className={styles.main}>
-            <div className="section_title">
+            {title && <div className="section_title">
                 Title and Description
-            </div>
+            </div>}
             <h1 className={styles.title}>
                 {title}
             </h1>

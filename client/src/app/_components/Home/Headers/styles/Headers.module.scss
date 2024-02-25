@@ -1,4 +1,5 @@
 @import "../../../../../styles/classes.scss";
+@import "../../../../../styles/variables.scss";
 
 .main {
     @extend .center_content;
@@ -15,7 +16,7 @@
     @extend .center_content;
 
     text-align: center;
-    color: red;
+    color: $color2;
     font-size: 24px;
     width: 100%;
     overflow-y: auto;
@@ -24,7 +25,7 @@
 .description {
     @extend .center_content;
 
-    color: blue;
+    color: $color3;
     font-size: 20px;
     width: 100%;
     overflow-y: auto;

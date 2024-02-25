@@ -8,7 +8,7 @@ const Link = ({
     id,
     clickLink,
     parents }: LinkProps) => {
-    const name = children.find((child: any) => child?.type === "text")?.data || "";
+    const { data:name = ""} = children?.find(({type}) => type === "text") || {};
 
     return (
         <div

@@ -6,15 +6,17 @@ import Links from "./_components/Home/Links/Links";
 import Loading from "./_components/Home/Loading/Loading";
 import Speed from "./_components/Home/Speed/Speed";
 import UrlInput from "./_components/Home/UrlInput/UrlInput";
+import Description from "./_components/Home/Description/Description";
 
 const HomePage = () => {
   return (
     <main className={styles.home_main}>
+      <Description />
       <UrlInput />
       <Loading />
       <div className={styles.data_sections}>
-        <Headers />
         <Speed />
+        <Headers />
         <Images />
       </div>
       <div className={styles.data_sections}>

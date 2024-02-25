@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ElementModel } from "../../../../types/global";
 
 // const EXTRACT_QUERY = gql`
 //     query Extract($url: String!, $open: JSON!) {
@@ -11,16 +12,16 @@ import axios from "axios";
 
 
 interface extractedInitialState {
-   domModel: any,
+   domModel: ElementModel,
    speed: number,
-   links: any[],
-   head: any[],
-   images: any[],
+   links: ElementModel[],
+   head: ElementModel[],
+   images: ElementModel[],
    loading: boolean,
 }
 
 const initialState: extractedInitialState = {
-   domModel: {},
+   domModel: {id: "", name: "", type: ""},
    speed: 0,
    head: [],
    links: [],

@@ -1,7 +1,7 @@
 "use client"
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
 import { extract, changeLoadingState } from "../../../../store/slices/extractedDataSlice";
@@ -11,23 +11,22 @@ const { placeholderText, placeholderInterval } = { ...configs };
 
 const UrlInput = () => {
     const [placeholder, setPlaceholder] = useState<string>("")
-    const urlInput = useRef<any>();
+    const urlInput = useRef<HTMLInputElement>(null);
     const inputInterval = useRef<any>();
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-    const extractData = useCallback(async (event: any) => {
+    const extractData = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         const { value = "" } = { ...document.activeElement as any }
         const clearCache = value === "clearCache" ? true : false;
         event.preventDefault();
-        const url = event.target["0"]?.value;
+        const { value: url = "" } = (event.target as any)["0"];
         if (!url) return console.error("URL is empty");
         dispatch(changeLoadingState(true));
-        dispatch(extract({url, clearCache}));
+        dispatch(extract({ url, clearCache }));
     }, [extract, dispatch])
 
-
     const clear = useCallback(() => {
-        urlInput.current.value = "";
+        if (urlInput.current) urlInput.current.value = "";
         setPlaceholder("");
     }, [setPlaceholder])
 

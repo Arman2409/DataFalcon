@@ -1,4 +1,6 @@
-const getHead = ({children}:any) => {
+import type { ElementModel } from "../../../../../types/global";
+
+const getHead = ({children}:ElementModel) => {
     let title = "";
     let description = "";
     let iconLink = "";
