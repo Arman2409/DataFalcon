@@ -2,7 +2,7 @@
 
 Web Crawler whcih can extracts data  like images, links, title, description, etc from websites. It also measures time which was taken to fetch the website. 
 
-### How to run locally
+### Getting started
 
 1. Install NodeJS and npm if you haven't already: https://nodejs.org
 
