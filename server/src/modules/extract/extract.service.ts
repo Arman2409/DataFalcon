@@ -37,8 +37,7 @@ export class ExtractService {
                 .then(({ data }) => {                 
                     extractedData = data;
                 });
-            const endTime = Date.now();
-            speed = endTime - startTime;
+            speed = Date.now() - startTime;
             this.cache.set(url, {
                 extractedData,
                 speed
