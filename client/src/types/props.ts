@@ -9,6 +9,7 @@ export interface DomElementProps extends ElementModel {
 export interface SlideProps {
     src?: string
     alt?: string
+    click: Function
 }
 
 export interface LinkProps {

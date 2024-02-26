@@ -4,20 +4,26 @@ import type { SlideProps } from "../../../../../../types/props";
 
 const Slide = ({
     src,
-    alt
+    alt,
+    click
 }: SlideProps) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    const loadImage = useCallback(() => setLoaded(true), [setLoaded])
+    const loadImage = useCallback(() =>{setLoaded(true)}, [setLoaded])
 
     return (
         <div
+            onClick={() => click(src, alt)}
             className={styles.main}>
-            {loaded ? <img
+            <img
                 src={src}
                 onLoad={loadImage}
+                style={{
+                    display: loaded  ? "block" : "none",
+                }}
                 className={styles.image}>
-            </img> : alt}
+            </img>
+            {!loaded && alt}
         </div>
     )
 }
