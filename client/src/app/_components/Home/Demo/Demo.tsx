@@ -8,41 +8,51 @@ import { changeContentDetails } from "../../../../store/slices/demoSlice";
 import type { IRootState } from "../../../../store/store";
 
 const Demo = () => {
-    const { src, alt } = useSelector((state: IRootState) => state.demo);
+    const { src, alt, title, description, text } = useSelector((state: IRootState) => state.demo);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const close = useCallback(() => {
-        dispatch(changeContentDetails({ src: "" }))
+        dispatch(changeContentDetails({}))
     }, [dispatch, changeContentDetails]);
 
     return (
         <>
-            {src ? <div
+            {(src || title || text) && <div
                 className={styles.main}
                 onClick={close}>
+                <img
+                    onClick={close}
+                    src={"./clear.png"}
+                    className={styles.close_icon} />
                 <div
                     className={styles.content}
                     onClick={(e) => e.stopPropagation()}>
-                    <img
-                        onClick={close}
-                        src={"./clear.png"}
-                        className={styles.close_icon} />
-                    <img
-                        src={src}
-                        className={styles.demo_image}
-                    />
-                    <p className={styles.src}>
-                        <a
-                            target="_blank"
-                            href={src}>
-                            source - {src}
-                        </a>
-                    </p>
-                    <p className={styles.alt}>
-                        {alt && `name - ${alt}`}
-                    </p>
+                    {title ? <>
+                        <h2 className={styles.title}>
+                            {title}
+                        </h2>
+                        <h4 className={styles.description}>
+                            {description}
+                        </h4>
+                    </> : null}
+                    {src ? <>
+                        <img
+                            src={src}
+                            className={styles.demo_image}
+                        />
+                        <p className={styles.title}>
+                            <a
+                                target="_blank"
+                                href={src}>
+                                source - {src}
+                            </a>
+                        </p>
+                        <p className={styles.description}>
+                            {alt && `name - ${alt}`}
+                        </p>
+                    </> : null}
                 </div>
-            </div> : null}
+            </div>}
         </>
     )
 }
