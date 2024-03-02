@@ -1,0 +1,49 @@
+@import "../../../../../styles/classes.scss";
+@import "../../../../../styles/variables.scss";
+
+.main {
+    @extend .center_content;
+
+    padding: 50px;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba($color: #000000, $alpha: 0.75);
+    z-index: 5;
+}
+
+.content {
+    @extend .center_content;
+     
+    flex-direction: column;
+}
+
+.close_icon {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+}
+
+.demo_image {
+    z-index: 6;
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.title {
+    margin: 10px 0;
+    font-size: 25px;
+    color: $color1;
+}
+
+.description {
+    margin: 10px 0;
+    font-size: 25px;
+    color: $color4;
+}

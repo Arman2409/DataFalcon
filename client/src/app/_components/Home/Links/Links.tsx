@@ -8,7 +8,7 @@ import Link from "./components/Link/LInk";
 import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import configs from "../../../../configs/links.json";
 import type { IRootState } from "../../../../store/store";
-import type { ElementModel } from "../../../../../../types/global";
+import type { ElementModel } from "../../../../types/globals";
 
 const { waitBeforeScroll, scrollExtra } = { ...configs }
 

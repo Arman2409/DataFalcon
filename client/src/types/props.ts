@@ -1,4 +1,4 @@
-import { ElementModel } from "../../../types/global"
+import type { ElementModel } from "../types/globals"
 
 export interface DomElementProps extends ElementModel {
     nestedCount: number
@@ -9,6 +9,7 @@ export interface DomElementProps extends ElementModel {
 export interface SlideProps {
     src?: string
     alt?: string
+    click: Function
 }
 
 export interface LinkProps {

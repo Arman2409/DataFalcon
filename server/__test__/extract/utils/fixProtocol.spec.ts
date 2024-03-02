@@ -1,4 +1,4 @@
-import fixProtocol from "../../../src/modules/extract/utils/fixProtocol";
+import fixProtocol from "../../../src/modules/extract/helpers/fixProtocol";
 
 const inValidUrl = "https:://website";
 

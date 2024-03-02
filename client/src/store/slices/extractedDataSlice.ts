@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ElementModel } from "../../../../types/global";
+
+import type { ElementModel } from "../../types/globals";
 
 // const EXTRACT_QUERY = gql`
 //     query Extract($url: String!, $open: JSON!) {

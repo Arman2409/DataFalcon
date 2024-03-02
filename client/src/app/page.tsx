@@ -7,23 +7,29 @@ import Loading from "./_components/Home/Loading/Loading";
 import Speed from "./_components/Home/Speed/Speed";
 import UrlInput from "./_components/Home/UrlInput/UrlInput";
 import Description from "./_components/Home/Description/Description";
+import Header from "./_components/Home/Header/Header";
+import Demo from "./_components/Home/Demo/Demo";
 
 const HomePage = () => {
   return (
-    <main className={styles.home_main}>
-      <Description />
-      <UrlInput />
-      <Loading />
-      <div className={styles.data_sections}>
-        <Speed />
-        <Headers />
-        <Images />
-      </div>
-      <div className={styles.data_sections}>
-        <DOMModel />
-        <Links />
-      </div>
-    </main>
+    <>
+      <Header />
+      <main className={styles.home_main}>
+        <Demo />
+        <Description />
+        <UrlInput />
+        <Loading />
+        <div className={styles.data_sections}>
+          <Speed />
+          <Headers />
+          <Images />
+        </div>
+        <div className={styles.data_sections}>
+          <DOMModel />
+          <Links />
+        </div>
+      </main>
+    </>
   );
 }
 

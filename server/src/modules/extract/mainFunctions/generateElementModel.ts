@@ -1,7 +1,6 @@
-import fixProtocol from "./fixProtocol";
-import uniqueID from "./uniqueID";
+import uniqueID from "../helpers/uniqueID";
 
-import type { ElementModel } from "../../../../../types/global";
+import type { ElementModel } from "../../../../types/extract";
 
 const getChildren = (
     children: ElementModel[],
@@ -30,19 +29,33 @@ const getChildren = (
 
 const updateLinkModel = (
     elementModel: ElementModel,
-     href: string, 
-     links: ElementModel[], 
-     url: string): void => {
+    href: string,
+    links: ElementModel[],
+    url: string): void => {
     if (elementModel.name === "a") {
-        let updatedHref = href?.startsWith("/") ? url + href : fixProtocol(href || "");
-        links.push({ ...elementModel, href: updatedHref });
+        let updatedHref = href?.startsWith("/") ? url + href : href;
+        updatedHref = updatedHref.replace("::", ":")
+        links.push({
+            ...elementModel,
+            href: updatedHref
+        });
     }
 };
 
-const updateImageModel = (elementModel: ElementModel, images: ElementModel[], url: string): void => {
+const updateImageModel = (
+    elementModel: ElementModel,
+    src: string,
+    alt:string,
+    images: ElementModel[],
+    url: string): void => {
     if (elementModel.name === "img") {
-        let updatedSrc = !elementModel.src?.startsWith("http") ? (elementModel.src?.startsWith("/") ? url + elementModel.src : url + "/" + elementModel.src) : fixProtocol(elementModel.src || "");
-        images.push({ ...elementModel, src: updatedSrc });
+        let updatedSrc = src?.startsWith("http") ? src : (src?.startsWith("/") ? url + src : url + "/" + src);
+        updatedSrc = updatedSrc.replace("::", ":")
+        images.push({
+            ...elementModel, 
+            src: updatedSrc,
+            alt
+        });
     }
 };
 
@@ -54,7 +67,7 @@ const generateElementModel = (
     parents: string[] = []
 ): ElementModel | ElementModel[] => {
     if (!element || !element.type) return [];
-
+    
     const { name, children, id, class: classname, attribs, type, data } = element;
     const { name: attribName = "", rel = "", content = "", href = "", src = "", alt = "" } = { ...attribs || {} };
 
@@ -84,8 +97,12 @@ const generateElementModel = (
         elementModel.rel = rel;
     }
 
-    updateLinkModel(elementModel, href, links, url);
-    updateImageModel(elementModel, images, url);
+    if(name === "a") {
+        updateLinkModel(elementModel, href, links, url);
+    }
+    if(name === "img") {
+        updateImageModel(elementModel, src, alt, images, url);
+    }
 
     return elementModel;
 };

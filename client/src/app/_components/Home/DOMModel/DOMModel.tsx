@@ -7,7 +7,7 @@ import styles from "./styles/DOMModel.module.scss";
 import DOMElement from "./components/DOMElement/DOMElement";
 import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import type { IRootState } from "../../../../store/store";
-import type { ElementModel } from "../../../../../../types/global";
+import type { ElementModel } from "../../../../types/globals";
 
 const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
