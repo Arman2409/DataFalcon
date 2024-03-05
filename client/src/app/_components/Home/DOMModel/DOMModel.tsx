@@ -8,6 +8,7 @@ import DOMElement from "./components/DOMElement/DOMElement";
 import { changeOpenElements } from "../../../../store/slices/domModelSlice";
 import type { IRootState } from "../../../../store/store";
 import type { ElementModel } from "../../../../types/globals";
+import type { OpenElement } from "../../../../store/slices/domModelSlice";
 
 const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
@@ -16,12 +17,12 @@ const DOMModel = () => {
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
-        if(!id) return console.error("ID not provided");
-        if (openElements.includes(id)) {
-            const newArr = openElements.filter((elemID:string) => elemID !== id);
+        if (!id) return console.error("ID not provided");
+        if (openElements.find(({ id: elemId }: OpenElement) => elemId === id)) {
+            const newArr = openElements.filter(({ id: elemID }: OpenElement) => elemID !== id);
             return dispatch(changeOpenElements(newArr));
         }
-        dispatch(changeOpenElements([...openElements, id]));
+        dispatch(changeOpenElements([...openElements, { id, count: 10 }]));
     }, [openElements, dispatch, changeOpenElements])
 
     useEffect(() => {
@@ -36,7 +37,7 @@ const DOMModel = () => {
     return (
         <div className={styles.main}>
             {domItems.length ? <div className="section_title">
-               DOM model
+                DOM model
             </div> : null}
             {domItems.length ? domItems.map(({ id, ...rest }) => (
                 <DOMElement

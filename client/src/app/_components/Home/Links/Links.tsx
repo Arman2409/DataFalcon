@@ -31,9 +31,13 @@ const Links = () => {
         }, waitBeforeScroll + 50)
     }, [changeOpenElements, openElements, dispatch,])
 
+    const showMore = useCallback(() => {
+        setLinksToShow(links.slice(0, linksToShow.length + 10));
+    }, [links,linksToShow, setLinksToShow])
+
     useEffect(() => {
-        setLinksToShow(links);
-    }, [links])
+        setLinksToShow(links.slice(0, 10));
+    }, [setLinksToShow, links])
 
     return (
         <div className={styles.main}>
@@ -46,6 +50,10 @@ const Links = () => {
                     {...linkData}
                 />
             ))}
+            {links.length > linksToShow.length ? 
+            <p className="show_more" onClick={showMore}>
+              Show More
+            </p> : null}
         </div>
     )
 }

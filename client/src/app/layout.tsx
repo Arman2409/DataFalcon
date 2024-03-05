@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "../styles/globals.scss";
 import StoreProvider from "../store/StoreProvider";
+import Header from "./_components/Home/Header/Header";
 
 export const metadata: Metadata = {
   title: "DataFalcon",
@@ -16,9 +17,10 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body>
-          <StoreProvider>
-            {children}
-          </StoreProvider>
+        <Header />
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

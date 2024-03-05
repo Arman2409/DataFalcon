@@ -1,7 +1,12 @@
 import { createSlice, Slice } from "@reduxjs/toolkit";
 
+export type OpenElement = {
+   id: string
+   count: number
+}
+
 interface DOMModelInitialState {
-    openElements: string[]
+    openElements: OpenElement[]
 }
 
 const initialState: DOMModelInitialState = {

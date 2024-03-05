@@ -1,8 +1,9 @@
+import type { OpenElement } from "../store/slices/domModelSlice"
 import type { ElementModel } from "../types/globals"
 
 export interface DomElementProps extends ElementModel {
     nestedCount: number
-    openElements: string[]
+    openElements: OpenElement[]
     handleClick: Function
 }
 

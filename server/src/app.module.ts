@@ -5,9 +5,9 @@ import { ExtractModule } from './modules/extract/extract.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     ExtractModule,
-  ],
-  providers: [],
+    ConfigModule.forRoot(),
+  ]
 })
+
 export class AppModule { }

@@ -6,13 +6,15 @@ import { CustomLogger } from '../../tools/logger';
 import { ExtractController } from './extract.controller';
 import configs from "../../../configs/extract.json";
 
-const { cacheConfig } = { ...configs};
-
+const { cacheConfig } = { ...configs };
 @Module({
-  providers: [ExtractService, CustomLogger],
+  providers: [
+    ExtractService,
+    CustomLogger
+  ],
   imports: [
     CacheModule.register(cacheConfig),
   ],
   controllers: [ExtractController]
 })
-export class ExtractModule {}
+export class ExtractModule { }

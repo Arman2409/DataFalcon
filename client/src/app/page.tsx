@@ -12,8 +12,6 @@ import Demo from "./_components/Home/Demo/Demo";
 
 const HomePage = () => {
   return (
-    <>
-      <Header />
       <main className={styles.home_main}>
         <Demo />
         <Description />
@@ -29,7 +27,6 @@ const HomePage = () => {
           <Links />
         </div>
       </main>
-    </>
   );
 }
 
