@@ -12,7 +12,7 @@ const Loading = () => {
             {loading && <div className={styles.main}>
                 <img
                     alt="Loading"
-                    src="/loading.gif"
+                    src="/falcon.gif"
                     className={styles.loading_image}
                 />
             </div>}
