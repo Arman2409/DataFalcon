@@ -1,8 +1,8 @@
 import styles from "./_styles/page.module.scss";
-import Loading from "./_components/Home/Loading/Loading";
+import Loading from "./_components/common/Loading/Loading";
 import UrlInput from "./_components/Home/UrlInput/UrlInput";
 import Description from "./_components/Home/Description/Description";
-import Demo from "./_components/Home/Demo/Demo";
+import Demo from "./_components/common/Demo/Demo";
 import DataView from "./_components/Home/DataView/DataView";
 
 const HomePage = () => {

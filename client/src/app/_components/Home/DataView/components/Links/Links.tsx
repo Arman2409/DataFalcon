@@ -19,11 +19,19 @@ const Links = () => {
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
     const clickLink = useCallback((id: string, parents: string[]) => {
-        const newOpenElements = [...openElements, ...parents, id]
+        
+        const newOpenElements = [...openElements, ...parents.map((parentId:string) => ({
+           id:parentId,
+           count: 10
+        })), {
+            id,
+            count: 0
+        }]
         dispatch(changeOpenElements(newOpenElements));
         setTimeout(() => {
             const { offsetTop = 0} = document.getElementById(id) || {};
             const desiredPosition = offsetTop - scrollExtra;
+            
             window.scrollTo({
                 top: desiredPosition,
                 behavior: 'smooth'

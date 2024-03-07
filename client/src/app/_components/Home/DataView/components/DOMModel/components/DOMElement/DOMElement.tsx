@@ -24,7 +24,7 @@ const DOMElement = ({
   calculateNestedCount,
   handleClick }: DomElementProps & { calculateNestedCount: Function }) => {
   const [nestedElementsCount, setNestedElementsCount] = useState<number>(0);
-  const { count }: OpenElement = openElements.find(({ id: elemId }: OpenElement) => elemId === id) || {} as OpenElement;
+  const [showChildrenCount, setShowChildrenCount] = useState<number>(0);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const click = useCallback(() => {
@@ -45,8 +45,15 @@ const DOMElement = ({
   }, [openElements, changeOpenElements, dispatch])
 
   useEffect(() => {
-    setNestedElementsCount(calculateNestedCount(id))
-  }, [openElements, setNestedElementsCount, calculateNestedCount])
+    const { count }: OpenElement = openElements.find(
+      ({ id: elemId }: OpenElement) => elemId === id
+    ) || {} as OpenElement;
+    setShowChildrenCount(count);
+    if (count) {
+      return setNestedElementsCount(calculateNestedCount(id))
+    }
+    setNestedElementsCount(0);
+  }, [openElements, setNestedElementsCount, showChildrenCount, calculateNestedCount])
 
   if (type === "text") return (
     <div
@@ -67,37 +74,36 @@ const DOMElement = ({
         data-nested-count={nestedCount}
         style={{
           marginLeft: nestedCount * elementGap + "px",
-          zIndex: 0
         }}
         id={id}
         className={styles.dom_element}
       >
-        {count ? <div style={{
-          width: "2px",
-          height: nestedElementsCount * 50 + 40 + "px",
-          backgroundColor: "green",
-          position: "absolute",
-          top: "0px",
-          left: "0px"
-        }} /> : null}
         <p style={{ zIndex: 2 }}>{name}</p>
         {idname ? <p>id:{idname}</p> : null}
         {classname ? <p>class:{classname}</p> : null}
         <p>children:{children?.length}</p>
+        {nestedElementsCount > 0 ? <>
+          <div
+            className={styles.indicator_line}
+            style={{
+              height: nestedElementsCount * 50 + 40 + "px",
+            }} />
+        </> : null}
       </div>
-      {count && children?.length ? <>{children.slice(0, count).map(
-        (child: ElementModel) => (
-          <DOMElement
-            key={id}
-            calculateNestedCount={calculateNestedCount}
-            nestedCount={nestedCount + 1}
-            openElements={openElements}
-            handleClick={handleClick}
-            {...child}
-          />
-        )
-      )}
-        {count < children.length ? (
+      {showChildrenCount && children?.length ? <>
+        {children.slice(0, showChildrenCount).map(
+          (child: ElementModel) => (
+            <DOMElement
+              key={id}
+              calculateNestedCount={calculateNestedCount}
+              nestedCount={nestedCount + 1}
+              openElements={openElements}
+              handleClick={handleClick}
+              {...child}
+            />
+          )
+        )}
+        {showChildrenCount < children.length ? (
           <p
             className="show_more"
             onClick={showMore}>

@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
 
