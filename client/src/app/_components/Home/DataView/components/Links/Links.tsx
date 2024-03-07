@@ -19,7 +19,6 @@ const Links = () => {
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
     const clickLink = useCallback((id: string, parents: string[]) => {
-        
         const newOpenElements = [...openElements, ...parents.map((parentId:string) => ({
            id:parentId,
            count: 10

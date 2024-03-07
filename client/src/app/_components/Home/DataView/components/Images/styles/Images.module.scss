@@ -1,10 +1,10 @@
 @import "../../../../../../../styles/classes.scss";
+@import "../../../../../../../styles/variables.scss";
 
 .main {
     @extend .center_content;
 
     width: 50vw;
-    border: 1px solid green;
     flex-direction: column;
     position: relative;
     padding: 30px;
@@ -15,7 +15,6 @@
 
 .slides_cont {
     height: auto;
-    border: 1px solid blue;
     display: flex;
     position: absolute;
     transition: 0.5s;

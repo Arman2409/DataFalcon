@@ -1,7 +1,10 @@
+@import "../../../../../../../../../styles/variables.scss";
+
 .dom_element {
     width: 500px;
     height: 40px;
-    background-color: skyblue;
+    background-color: $color3;
+    color: $color4;
     display: flex;
     padding: 5px 10px;
     justify-content: space-between;
@@ -15,14 +18,15 @@
 .dom_text_element {
     @extend .dom_element;
 
-    background-color: green;
+    background-color: $color5;
+    color: $color3;
     justify-content: center;
     overflow: hidden;
 }
 
 .indicator_line {
     width: 1.5px;
-    background-color: green;
+    background-color: $color5;
     position: absolute;
     top: 0px;
     left: 0px;

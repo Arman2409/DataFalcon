@@ -34,12 +34,12 @@ a {
 }
 
 .show_more {
-  color: $color3;
+  color: $color2;
   font-size: 18px;
   cursor: pointer;
   transition: 0.5s;
    
   &:hover {
-    color: $color2;
+    color: $color3;
   }
 }
