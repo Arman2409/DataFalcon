@@ -25,15 +25,16 @@ const Notification = ({
 
     return (
         <>
-            {visible && <div
-                className={styles.notification_main}>
-                <img
-                    src={type === "error" ? "close.png" : "success.png"}
-                    className={styles.notification_icon} />
-                <p className={styles.notification_message}>
-                    {message}
-                </p>
-            </div>}
+            {visible &&  <div
+                    className={styles.notification_main}>
+                    <img
+                        src={type === "error" ? "clear.png" : "success.png"}
+                        className={styles.notification_icon} />
+                    <p className={styles.notification_message}>
+                        {message}
+                    </p>
+                </div>
+           }
         </>
     )
 }

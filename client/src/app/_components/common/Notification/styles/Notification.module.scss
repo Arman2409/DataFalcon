@@ -3,15 +3,22 @@
 .notification_main {
     display: flex;
     align-items: center;
-    min-width: 200px;
+    min-width: 100px;
     max-width: 600px;
     overflow: hidden;
     width: auto;
     height: 50px;
-    position: absolute;
+    position: fixed;
     top: 25px;
-    background-color: $color4;
+    left: calc(50% - 100px);
+    background-color: $color1;
     padding: 5px;
+    z-index: 5;
+    border: 1px solid $color3;
+    border-radius: 5px;
+    box-shadow: 1px 1px 95px 25px rgba(67, 32, 45, 0.75);
+    -webkit-box-shadow: 1px 1px 95px 25px rgba(67, 32, 45, 0.75);
+    -moz-box-shadow: 1px 1px 95px 25px rgba(67, 32, 45, 0.75);
 }
 
 .notification_icon {
