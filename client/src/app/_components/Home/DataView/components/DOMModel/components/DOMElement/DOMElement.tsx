@@ -4,6 +4,7 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/DOMElement.module.scss";
 import configs from "../../../../../../../../configs/domModel.json";
+import { changeContentDetails } from "../../../../../../../../store/slices/demoSlice";
 import { changeOpenElements } from "../../../../../../../../store/slices/domModelSlice";
 import type { DomElementProps } from "../../../../../../../../types/props";
 import type { ElementModel } from "../../../../../../../../types/globals";
@@ -22,7 +23,7 @@ const DOMElement = ({
   idname,
   classname,
   calculateNestedCount,
-  handleClick }: DomElementProps & { calculateNestedCount: Function }) => {
+  handleClick }: DomElementProps) => {
   const [nestedElementsCount, setNestedElementsCount] = useState<number>(0);
   const [showChildrenCount, setShowChildrenCount] = useState<number>(0);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -31,6 +32,14 @@ const DOMElement = ({
     if (!children?.length) return;
     handleClick(id);
   }, [handleClick])
+
+  const clickText = useCallback((text:string) => {
+    dispatch(
+      changeContentDetails({
+         text
+      })
+    ) 
+  }, [changeContentDetails])
 
   const showMore = useCallback(() => {
     dispatch(changeOpenElements(openElements.map(({ id, count }: OpenElement) => {
@@ -60,6 +69,7 @@ const DOMElement = ({
       style={{
         marginLeft: nestedCount * elementGap + "px"
       }}
+      onClick={data ? () => clickText(data) : () => {}}
       id={id}
       data-nested-count={nestedCount}
       className={styles.dom_text_element}

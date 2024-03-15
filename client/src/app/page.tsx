@@ -4,6 +4,7 @@ import UrlInput from "./_components/Home/UrlInput/UrlInput";
 import Description from "./_components/Home/Description/Description";
 import Demo from "./_components/common/Demo/Demo";
 import DataView from "./_components/Home/DataView/DataView";
+import Footer from "./_components/Home/Footer/Footer";
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
         <UrlInput />
         <Loading />
         <DataView />
+        <Footer />
       </main>
   );
 }

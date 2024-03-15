@@ -5,6 +5,7 @@ export interface DomElementProps extends ElementModel {
     nestedCount: number
     openElements: OpenElement[]
     handleClick: Function
+    calculateNestedCount: Function
 }
 
 export interface SlideProps {
@@ -19,4 +20,12 @@ export interface LinkProps {
     parents?: string[]
     href?: string
     children?: ElementModel[]
+}
+
+export interface NotificationProps {
+    message: string
+    type?: "error" | "success"
+    duration?: number
+    show?: boolean
+    onFinish?: Function
 }

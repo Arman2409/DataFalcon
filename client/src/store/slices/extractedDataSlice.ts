@@ -3,38 +3,31 @@ import axios from "axios";
 
 import type { ElementModel } from "../../types/globals";
 
-// const EXTRACT_QUERY = gql`
-//     query Extract($url: String!, $open: JSON!) {
-//         Extract(url: $url, open:$open) {
-//             url
-//         }
-//     }
-// `
-
-
 interface extractedInitialState {
-   domModel: ElementModel,
-   speed: number,
-   links: ElementModel[],
-   head: ElementModel[],
-   images: ElementModel[],
-   loading: boolean,
+   speed: number
+   domModel: ElementModel
+   links: ElementModel[]
+   head: ElementModel[]
+   images: ElementModel[]
+   status: "loading" | "failed" | "loaded" | "initial"
+   failMessage: string
 }
 
 const initialState: extractedInitialState = {
-   domModel: {id: "", name: "", type: ""},
+   domModel: { id: "", name: "", type: "" },
    speed: 0,
    head: [],
    links: [],
    images: [],
-   loading: false
+   status: "initial",
+   failMessage: ""
 }
 
 export const extract = createAsyncThunk(
    "extractedData/createUser",
-   async ({url, clearCache}:{url: string,  clearCache: boolean}) => {
+   async ({ url, clearCache }: { url: string, clearCache: boolean }) => {
       const result = await axios.get("http://localhost:4000/extract",
-         { params: { url, clearCache } }).catch(({message}) => {
+         { params: { url, clearCache } }).catch(({ message }) => {
             console.error(message)
          });
       return { ...result?.data || {} };
@@ -45,13 +38,23 @@ const extractedDataSlice: Slice = createSlice({
    name: "extractedDataSlice",
    initialState,
    reducers: {
-      changeLoadingState: (state, {payload}) => {
-         state.loading = payload
-     }
+      changeLoadingState: (state, { payload }) => {
+         state.status = payload;
+      }
    },
    extraReducers: (builder) => {
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
+            const {
+               message = "",
+               code = 400
+            } = { ...payload };
+            if (message) {
+               state.status = "failed";
+               state.failMessage = message;
+               // code ... 
+               return;
+            }
             const { head = {},
                model = {},
                speed = 0,
@@ -62,11 +65,12 @@ const extractedDataSlice: Slice = createSlice({
             state.links = [...links];
             state.images = [...images];
             state.speed = speed;
-            state.loading = false;
+            state.status = "loaded";
          }
       })
-      builder.addCase(extract.rejected, (state, {payload}) => {
-         console.error(payload);
+      builder.addCase(extract.rejected, (state, { payload }: any) => {
+         state.status = "failed";
+         state.failMessage = "failed"
       })
    }
 });

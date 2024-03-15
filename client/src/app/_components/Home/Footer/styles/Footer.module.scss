@@ -1,0 +1,18 @@
+@import "../../../../../styles/variables.scss";
+@import "../../../../../styles/classes.scss";
+
+.footer_main {
+    @extend .center_content;
+
+    background-color: $color4;
+    height: 30px;
+    width: 100%;
+    color: $color2;
+    font-size: 12px;
+}
+
+.copyright_image {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+}

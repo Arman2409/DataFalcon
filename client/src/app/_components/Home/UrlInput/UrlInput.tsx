@@ -21,7 +21,7 @@ const UrlInput = () => {
         event.preventDefault();
         const { value: url = "" } = (event.target as any)["0"];
         if (!url) return console.error("URL is empty");
-        dispatch(changeLoadingState(true));
+        dispatch(changeLoadingState("loading"));
         dispatch(extract({ url, clearCache }));
     }, [extract, dispatch])
 
