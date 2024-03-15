@@ -1,0 +1,25 @@
+@import "../../../../../styles/variables.scss";
+
+.notification_main {
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    max-width: 600px;
+    overflow: hidden;
+    width: auto;
+    height: 50px;
+    position: absolute;
+    top: 25px;
+    background-color: $color4;
+    padding: 5px;
+}
+
+.notification_icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.notification_message {
+    color: $color2;
+}

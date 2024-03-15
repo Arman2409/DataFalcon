@@ -14,7 +14,7 @@ const DataView = () => {
     const { speed } = useSelector((state: IRootState) => state.extractedData);
 
     return (
-        <div>
+        <div className={styles.data_view_main}>
             {speed ? <>
                 <div className={styles.data_sections}>
                     <Speed />
