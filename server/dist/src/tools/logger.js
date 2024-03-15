@@ -8,14 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomLogger = void 0;
 const common_1 = require("@nestjs/common");
-const fs_1 = require("fs");
 let CustomLogger = class CustomLogger {
     constructor() {
         this.logger = new common_1.Logger();
     }
     error(message) {
         this.logger.error(message);
-        (0, fs_1.appendFileSync)('./logs/errors.log', `${new Date().toISOString()} - ${message} \n`);
     }
 };
 exports.CustomLogger = CustomLogger;

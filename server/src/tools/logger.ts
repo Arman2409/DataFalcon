@@ -7,6 +7,6 @@ export class CustomLogger {
 
     error(message: string) {
         this.logger.error(message);
-        appendFileSync('./logs/errors.log', `${new Date().toISOString()} - ${message} \n`);
+        // appendFileSync('./logs/errors.log', `${new Date().toISOString()} - ${message} \n`);
     }
 }
