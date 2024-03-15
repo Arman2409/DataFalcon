@@ -11,7 +11,7 @@ const Footer = () => (
             Copyright
         </p>
         <img
-            src="./c.png"
+            src="./copyright.png"
             className={styles.copyright_image} />
         <p
             className={styles.footer_text}>
