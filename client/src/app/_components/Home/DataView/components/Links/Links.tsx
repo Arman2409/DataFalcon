@@ -5,7 +5,7 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/Links.module.scss";
 import Link from "./components/Link/LInk";
-import { changeOpenElements } from "../../../../../../store/slices/domModelSlice";
+import { changeOpenElements, changeShowElement } from "../../../../../../store/slices/domModelSlice";
 import configs from "../../../../../../configs/links.json";
 import type { IRootState } from "../../../../../../store/store";
 import type { ElementModel } from "../../../../../../types/globals";
@@ -17,16 +17,9 @@ const Links = () => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const { links } = useSelector((state: IRootState) => state.extractedData);
     const { openElements } = useSelector((state: IRootState) => state.domModel);
-
+    
     const clickLink = useCallback((id: string, parents: string[]) => {
-        const newOpenElements = [...openElements, ...parents.map((parentId:string) => ({
-           id:parentId,
-           count: 10
-        })), {
-            id,
-            count: 0
-        }]
-        dispatch(changeOpenElements(newOpenElements));
+        dispatch(changeShowElement({id, parents}));
         setTimeout(() => {
             const { offsetTop = 0} = document.getElementById(id) || {};
             const desiredPosition = offsetTop - scrollExtra;
@@ -44,7 +37,7 @@ const Links = () => {
 
     useEffect(() => {
         setLinksToShow(links.slice(0, 10));
-    }, [setLinksToShow, links])
+    }, [setLinksToShow, openElements, links])
 
     return (
         <div className={styles.main}>
@@ -53,6 +46,7 @@ const Links = () => {
             </div> : null}
             {linksToShow.map(linkData => (
                 <Link
+                    key={linkData.id}
                     clickLink={clickLink}
                     {...linkData}
                 />
