@@ -64,44 +64,55 @@ const DOMModel = () => {
         setDomItems(curr => [...curr])
     }, [openElements, setDomItems])
 
-    const findOrderA = useCallback((parents: any[]): any => {
-        const findOrder = (parents: any[], current: number = 0, domItems: any[], openElements: any[]):undefined => {
-            const currentParent = parents[current];
-            if (!currentParent) {
-                 console.log("No parent found at index", current);
-                 return;
+    const openElementToShow = useCallback((parentIds: string[], targetId: string): any => {
+        const openElementsRecursively = (
+            parentIds: string[],
+            current: number = 0,
+            domItems: ElementModel[],
+            openElements: OpenElement[]): undefined => {
+            if (current === parentIds.length) {
+                return;
             }
-            const parentElement = domItems.find(({ id }) => id === currentParent);
-            let order;
-            if(parentElement) {
-                order = domItems.findIndex(({ id }) => id === currentParent) + 1;
+            const element = domItems.find(({ id }) => id === parentIds[current]);
+            if (!element) {
+                console.error("Element not found");
+                return;
+            }
+            const { children, id: elemId } = { ...element };
+            const childElementOrder = children ? children.findIndex(({ id }: ElementModel) => id === parentIds[current + 1]) + 1 : 0;
+            if(childElementOrder) {
+                return;
+            }
+            let newOpenElements = [];
+            const isAlreadyOpen = openElements.find(({ id }: OpenElement) => id === elemId);
+            if (isAlreadyOpen) {
+                newOpenElements = openElements.map((openElement: OpenElement) => {
+                    if (openElement.id === elemId) {
+                        return {
+                            id: openElement.id,
+                            count: childElementOrder
+                        }
+                    }
+                    return openElement;
+                })
             } else {
-               order = domItems.find(({ id }) => id === currentParent)
+                newOpenElements = [...openElements, {
+                    id: elemId,
+                    count: childElementOrder
+                }]
             }
-            console.log("dispatching");
-            const newOpenElements = [...openElements, {
-                id: currentParent,
-                count: order
-            }]
             dispatch(changeOpenElements(newOpenElements))
-            findOrder(parents, current += 1, parentElement.children || [], newOpenElements)
+            openElementsRecursively(parentIds, current += 1, children || [], newOpenElements)
         }
-        findOrder(parents, 0, domItems, openElements)
-        
-    }, [dispatch, changeOpenElements, openElements, domItems ])
+        openElementsRecursively([...parentIds, targetId], 0, domItems, openElements)
+    }, [dispatch, changeOpenElements, openElements, domItems])
 
     useEffect(() => {
         if (showElement) {
-            const { parents }: any = { ...showElement };
-            findOrderA(parents);
-
+            const { parents, id }: any = { ...showElement };
+            openElementToShow(parents, id);
         }
     }, [showElement])
-
-    useEffect(() => {
-       console.log({openElements});
-       
-    }, [openElements])
 
     return (
         <div className={styles.main}>
