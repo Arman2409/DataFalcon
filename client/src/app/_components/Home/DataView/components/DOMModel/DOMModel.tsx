@@ -14,7 +14,7 @@ const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const { domModel } = useSelector((state: IRootState) => state.extractedData);
-    const { openElements } = useSelector((state: IRootState) => state.domModel);
+    const { openElements, showElement } = useSelector((state: IRootState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
         if (!id) return console.error("Id not provided");
@@ -31,12 +31,12 @@ const DOMModel = () => {
             console.error(`Element with id ${id} not found.`);
             return;
         }
-    
+
         const nestedCount = parseInt(targetElement.getAttribute('data-nested-count') as string, 10);
         let count = 0;
         const elements = Array.from(document.querySelectorAll('[data-nested-count]'));
         const targetIndex = elements.indexOf(targetElement);
-    
+
         if (targetIndex === -1) {
             console.error(`Element with id ${id} not found in the array of elements.`);
             return;
@@ -44,13 +44,13 @@ const DOMModel = () => {
 
         for (let i = targetIndex + 1; i < elements.length; i++) {
             const currentCount = parseInt(elements[i].getAttribute('data-nested-count') as string, 10);
-                        
+
             if (currentCount > nestedCount) {
                 count++;
             } else {
                 break; // Stop counting when encountering an element with equal or lower data-nested-count
             }
-        }  
+        }
 
         return count;
     }
@@ -62,7 +62,57 @@ const DOMModel = () => {
 
     useEffect(() => {
         setDomItems(curr => [...curr])
-    }, [setDomItems, openElements])
+    }, [openElements, setDomItems])
+
+    const openElementToShow = useCallback((parentIds: string[], targetId: string): any => {
+        const openElementsRecursively = (
+            parentIds: string[],
+            current: number = 0,
+            domItems: ElementModel[],
+            openElements: OpenElement[]): undefined => {
+            if (current === parentIds.length) {
+                return;
+            }
+            const element = domItems.find(({ id }) => id === parentIds[current]);
+            if (!element) {
+                console.error("Element not found");
+                return;
+            }
+            const { children, id: elemId } = { ...element };
+            const childElementOrder = children ? children.findIndex(({ id }: ElementModel) => id === parentIds[current + 1]) + 1 : 0;
+            if(childElementOrder) {
+                return;
+            }
+            let newOpenElements = [];
+            const isAlreadyOpen = openElements.find(({ id }: OpenElement) => id === elemId);
+            if (isAlreadyOpen) {
+                newOpenElements = openElements.map((openElement: OpenElement) => {
+                    if (openElement.id === elemId) {
+                        return {
+                            id: openElement.id,
+                            count: childElementOrder
+                        }
+                    }
+                    return openElement;
+                })
+            } else {
+                newOpenElements = [...openElements, {
+                    id: elemId,
+                    count: childElementOrder
+                }]
+            }
+            dispatch(changeOpenElements(newOpenElements))
+            openElementsRecursively(parentIds, current += 1, children || [], newOpenElements)
+        }
+        openElementsRecursively([...parentIds, targetId], 0, domItems, openElements)
+    }, [dispatch, changeOpenElements, openElements, domItems])
+
+    useEffect(() => {
+        if (showElement) {
+            const { parents, id }: any = { ...showElement };
+            openElementToShow(parents, id);
+        }
+    }, [showElement])
 
     return (
         <div className={styles.main}>

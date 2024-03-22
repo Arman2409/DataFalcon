@@ -6,11 +6,13 @@ export type OpenElement = {
 }
 
 interface DOMModelInitialState {
-    openElements: OpenElement[]
+    openElements: OpenElement[],
+    showElement: null|Element
 }
 
 const initialState: DOMModelInitialState = {
     openElements: [],
+    showElement: null
 }
 
 const domModelSlice: Slice = createSlice({
@@ -20,8 +22,11 @@ const domModelSlice: Slice = createSlice({
         changeOpenElements: (state, {payload}) => {
            state.openElements = [...payload]
         },
+        changeShowElement: (state, {payload}) => {
+            state.showElement = {...payload}
+        },
     },
 });
 
-export const { changeOpenElements } = domModelSlice.actions;
+export const { changeOpenElements, changeShowElement} = domModelSlice.actions;
 export default domModelSlice.reducer;
