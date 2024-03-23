@@ -3,20 +3,20 @@ import axios from "axios";
 
 import type { ElementModel } from "../../types/globals";
 
-interface extractedInitialState {
+interface extractInitialState {
    speed: number
-   domModel: ElementModel
+   domElements: ElementModel[]
    links: ElementModel[]
-   head: ElementModel[]
+   titles: ElementModel[]
    images: ElementModel[]
    status: "loading" | "failed" | "loaded" | "initial"
    failMessage: string
 }
 
-const initialState: extractedInitialState = {
-   domModel: { id: "", name: "", type: "" },
+const initialState: extractInitialState = {
+   domElements: [],
    speed: 0,
-   head: [],
+   titles: [],
    links: [],
    images: [],
    status: "initial",
@@ -24,8 +24,10 @@ const initialState: extractedInitialState = {
 }
 
 export const extract = createAsyncThunk(
-   "extractedData/createUser",
-   async ({ url, clearCache }: { url: string, clearCache: boolean }) => {
+   "extractData/createUser",
+   async ({ url, clearCache }: {
+      url: string, clearCache: boolean
+   }) => {
       const result = await axios.get("http://localhost:4000/extract",
          { params: { url, clearCache } }).catch(({ message }) => {
             console.error(message)
@@ -34,8 +36,8 @@ export const extract = createAsyncThunk(
    }
 )
 
-const extractedDataSlice: Slice = createSlice({
-   name: "extractedDataSlice",
+const extractDataSlice: Slice = createSlice({
+   name: "extractDataSlice",
    initialState,
    reducers: {
       changeLoadingState: (state, { payload }) => {
@@ -55,13 +57,13 @@ const extractedDataSlice: Slice = createSlice({
                // code ... 
                return;
             }
-            const { head = {},
-               model = {},
+            const { titles = {},
+               domElements = [],
                speed = 0,
                links = [],
                images = [] } = { ...payload };
-            state.domModel = { ...model };
-            state.head = { ...head };
+            state.domElements = [...domElements];
+            state.titles = { ...titles };
             state.links = [...links];
             state.images = [...images];
             state.speed = speed;
@@ -74,5 +76,5 @@ const extractedDataSlice: Slice = createSlice({
       })
    }
 });
-export const { changeLoadingState } = extractedDataSlice.actions;
-export default extractedDataSlice.reducer;
+export const { changeLoadingState } = extractDataSlice.actions;
+export default extractDataSlice.reducer;

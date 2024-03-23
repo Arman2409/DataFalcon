@@ -1,4 +1,4 @@
-import getHead from "../../../src/modules/extract/mainFunctions/getHead";
+import getHead from "../../../src/modules/extract/mainFunctions/getTitles";
 import type { ElementModel } from "../../../types/extract";
 
 const data = {

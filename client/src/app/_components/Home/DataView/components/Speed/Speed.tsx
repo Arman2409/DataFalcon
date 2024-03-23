@@ -12,7 +12,7 @@ const Speed = () => {
     const [speedNumber, setSpeedNumber] = useState<number>(0)
     const [animatingLeft, setAnimatingLeft] = useState<number>(200);
     const speedInterval = useRef<any>();
-    const { speed } = useSelector((state: IRootState) => state.extractedData);
+    const { speed } = useSelector((state: IRootState) => state.extractData);
 
     useEffect(() => {
         if (speed) {

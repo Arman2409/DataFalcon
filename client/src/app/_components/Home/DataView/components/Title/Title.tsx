@@ -15,18 +15,18 @@ const Title = () => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     // Get the current title and description from Redux store
-    const { head } = useSelector((state: IRootState) => state.extractedData);
+    const { titles } = useSelector((state: IRootState) => state.extractData);
 
     const clickHeaders = useCallback(() => {
         dispatch(changeContentDetails({type: "title", title, description }))
     }, [title, description])
 
     useEffect(() => {
-        const { title: currTitle = "", description: currDescription = "", logo: currLogo = "" } = { ...head };
+        const { title: currTitle = "", description: currDescription = "", logo: currLogo = "" } = { ...titles };
         setTitle(currTitle);
         setDescription(currDescription);
         setLogo(currLogo);
-    }, [head, setLogo, setTitle, setDescription])
+    }, [titles, setLogo, setTitle, setDescription])
 
     return (
         <div 

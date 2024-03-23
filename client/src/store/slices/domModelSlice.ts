@@ -16,7 +16,7 @@ const initialState: DOMModelInitialState = {
 }
 
 const domModelSlice: Slice = createSlice({
-    name: "extractedDataSlice",
+    name: "extractDataSlice",
     initialState,
     reducers: {
         changeOpenElements: (state, {payload}) => {

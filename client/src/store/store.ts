@@ -1,5 +1,5 @@
 import { configureStore, Store} from "@reduxjs/toolkit";
-import extractedDataSlice from "./slices/extractedDataSlice";
+import extractDataSlice from "./slices/extractDataSlice";
 import domModelSlice from "./slices/domModelSlice";
 import demoSlice from "./slices/demoSlice";
 
@@ -8,7 +8,7 @@ import demoSlice from "./slices/demoSlice";
 const reducers
 // :Reducers 
 = {
-    extractedData: extractedDataSlice,
+    extractData: extractDataSlice,
     domModel: domModelSlice,
     demo: demoSlice
 }

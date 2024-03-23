@@ -5,7 +5,7 @@ import styles from "./styles/Loading.module.scss";
 import type { IRootState } from "../../../../store/store";
 
 const Loading = () => {
-    const { status } = useSelector((state: IRootState) => state.extractedData);
+    const { status } = useSelector((state: IRootState) => state.extractData);
 
     return (
         <>

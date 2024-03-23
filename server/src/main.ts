@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './filters/ExceptionFilter';
 import { CustomLogger } from './tools/logger';
 
-async function bootstrap() {
+const bootstrap = async () => {
   const app = await NestFactory.create(AppModule, {
     logger: ["error", "warn", "log"]
   });

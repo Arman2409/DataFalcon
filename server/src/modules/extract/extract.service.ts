@@ -5,9 +5,9 @@ import { Cache } from '@nestjs/cache-manager';
 
 import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './mainFunctions/generateElementModel';
-import getHead from './mainFunctions/getHead';
 import isValidUrl from "./mainFunctions/isValidUrl";
-import type { ElementModel } from '../../../types/extract';
+import getTitles from './mainFunctions/getTitles';
+import getBaseUrl from "./mainFunctions/getBaseUrl";
 
 @Injectable()
 export class ExtractService {
@@ -15,34 +15,24 @@ export class ExtractService {
         private readonly logger: CustomLogger,
         private readonly cache: Cache) { }
 
-    async extractData(url: string) {
+    async extractData(url: string, clearCache?: boolean) {
         try {
             const isUrlValid = isValidUrl(url);
             if (!isUrlValid) {
                 throw new Error("Invalid URL");
             }
             let extractedData: any = {};
-            const cachedUrl = await this.cache.get(url);
+            const cachedData = await this.cache.get(url);
             let speed = 0;
-            const { protocol, hostname } = new URL(url);
-            const baseUrl = `${protocol}://${hostname}`;
-            if (cachedUrl) {
-                const { extractedData: cachedData = {}, speed: cachedSpeed = 0 }: any = cachedUrl;
-                speed = cachedSpeed;
-                extractedData = cachedData;
-                return this.processData(extractedData, speed, baseUrl);
+            if (cachedData && clearCache) {
+                await this.cache.del(url);
+            } else if (cachedData) {
+                return cachedData;
             }
             const startTime = Date.now();
-            await axios.get(url)
-                .then(({ data }) => {
-                    extractedData = data;
-                });
+            extractedData = (await axios.get(url))?.data;
             speed = Date.now() - startTime;
-            this.cache.set(url, {
-                extractedData,
-                speed
-            })
-            return this.processData(extractedData, speed, baseUrl);
+            return this.processData(extractedData, speed, url);
         } catch ({ message, response }) {
             this.logger.error(message);
             const code = { ...response };
@@ -53,26 +43,31 @@ export class ExtractService {
         }
     }
 
-    async processData(data: any, speed: number, url: string): Promise<any> {
+    async processData(
+        data: any,
+        speed: number,
+        url: string,
+    ): Promise<any> {
         try {
+            const baseUrl = getBaseUrl(url);
             const $ = load(data);
-            const head = $("head");
-            const body = $("body");
             const links = [];
             const images = [];
-            const headModel = generateElementModel(head["0"], links, images, url);
-            const bodyModel = generateElementModel(body["0"], links, images, url);
-            const header = getHead(headModel as ElementModel);
-            return ({
-                head: header,
+            const domModel = generateElementModel($("html")["0"], links, images, baseUrl);
+            const { children: domElements = [] } = { ...domModel };
+            const headModel = domElements.find(
+                ({ name }: { name: string }) => name === "head"
+            );
+            const titles = getTitles(headModel);
+            const extractedData = {
+                titles,
                 speed,
                 links,
                 images,
-                model: {
-                    head: headModel,
-                    body: bodyModel,
-                }
-            })
+                domElements
+            }
+            await this.cache.set(url, extractedData)
+            return extractedData;
         } catch ({ message, response }) {
             this.logger.error(message);
             const code = { ...response };

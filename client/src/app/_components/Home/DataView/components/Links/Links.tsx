@@ -15,7 +15,7 @@ const { waitBeforeScroll, scrollExtra } = { ...configs }
 const Links = () => {
     const [linksToShow, setLinksToShow] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { links, status } = useSelector((state: IRootState) => state.extractedData);
+    const { links, status } = useSelector((state: IRootState) => state.extractData);
     const { openElements } = useSelector((state: IRootState) => state.domModel);
 
     const clickLink = useCallback((id: string, parents: string[]) => {

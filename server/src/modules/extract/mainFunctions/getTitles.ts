@@ -1,6 +1,6 @@
 import type { ElementModel } from "../../../../types/extract";
 
-const getHead = ({children}:ElementModel) => {
+const getTitles = ({children}:ElementModel) => {
     let title = "";
     let description = "";
     let iconLink = "";
@@ -25,4 +25,4 @@ const getHead = ({children}:ElementModel) => {
     }
 }
 
-export default getHead;
+export default getTitles;
