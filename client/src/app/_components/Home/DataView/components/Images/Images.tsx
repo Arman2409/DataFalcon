@@ -11,7 +11,7 @@ import type { ElementModel } from "../../../../../../types/globals";
 
 const Images = () => {
     const [currentSlide, setCurrentSlide] = useState<number>(0);
-    const { images, status } = useSelector((state: IRootState) => state.extractedData);
+    const { images, status } = useSelector((state: IRootState) => state.extractData);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const clickImage = useCallback((src: string, alt: string) => {

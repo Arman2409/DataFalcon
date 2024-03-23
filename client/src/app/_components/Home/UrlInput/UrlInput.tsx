@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
-import { extract, changeLoadingState } from "../../../../store/slices/extractedDataSlice";
+import { extract, changeLoadingState } from "../../../../store/slices/extractDataSlice";
 import configs from "../../../../configs/urlInput.json";
 
 const { placeholderText, placeholderInterval } = { ...configs };
@@ -16,14 +16,14 @@ const UrlInput = () => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const extractData = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-        const { value = "" } = { ...document.activeElement as any }
-        const clearCache = value === "clearCache" ? true : false;
         event.preventDefault();
+        const { value = "" }:any = document.activeElement;
+        const clearCache = value === "clearCache" ? true : false;
         const { value: url = "" } = (event.target as any)["0"];
         if (!url) return console.error("URL is empty");
         dispatch(changeLoadingState("loading"));
         dispatch(extract({ url, clearCache }));
-    }, [extract, dispatch])
+    }, [extract, dispatch, changeLoadingState])
 
     const clear = useCallback(() => {
         if (urlInput.current) urlInput.current.value = "";

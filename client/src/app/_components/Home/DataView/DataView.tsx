@@ -13,7 +13,7 @@ import DataIconContainer from "./components/DataIconContainer/DataIconContainer"
 import type { IRootState } from "../../../../store/store";
 
 const DataView = () => {
-    const { status, failMessage } = useSelector((state: IRootState) => state.extractedData);
+    const { status, failMessage } = useSelector((state: IRootState) => state.extractData);
 
     return (
         <div className={styles.data_view_main}>

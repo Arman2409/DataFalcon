@@ -13,7 +13,7 @@ import type { OpenElement } from "../../../../../../store/slices/domModelSlice";
 const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { domModel } = useSelector((state: IRootState) => state.extractedData);
+    const { domModel } = useSelector((state: IRootState) => state.extractData);
     const { openElements, showElement } = useSelector((state: IRootState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
