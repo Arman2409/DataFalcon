@@ -33,6 +33,10 @@ a {
   top: 0px;
 }
 
+.actions_cont {
+  display: flex;
+}
+
 .show_more {
   color: $color2;
   font-size: 18px;
@@ -41,5 +45,16 @@ a {
    
   &:hover {
     color: $color3;
+  }
+}
+
+.show_less {
+  @extend .show_more;
+  
+  margin-left: 10px;
+  color: $color3;
+
+  &:hover {
+   color: $color2;
   }
 }

@@ -1,7 +1,7 @@
 @import "../../../../../../../styles/classes.scss";
 @import "../../../../../../../styles/variables.scss";
 
-.main {
+.images_main {
     @extend .center_content;
 
     width: 50vw;
@@ -9,7 +9,6 @@
     position: relative;
     padding: 30px;
     height: 250px;
-    align-items: flex-start;
     overflow: hidden;
 }
 
@@ -51,4 +50,9 @@
     @extend .arrow;
 
     right: 20px;
+}
+
+.no_images_found {
+   color: $color3;
+   font-size: 20px;
 }

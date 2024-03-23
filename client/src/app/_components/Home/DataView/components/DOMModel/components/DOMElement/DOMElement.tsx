@@ -4,6 +4,7 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/DOMElement.module.scss";
 import configs from "../../../../../../../../configs/domModel.json";
+import sliceString from "../../../../../../../../helpers/sliceString";
 import { changeContentDetails } from "../../../../../../../../store/slices/demoSlice";
 import { changeOpenElements } from "../../../../../../../../store/slices/domModelSlice";
 import type { DomElementProps } from "../../../../../../../../types/props";
@@ -33,23 +34,29 @@ const DOMElement = ({
     handleClick(id);
   }, [handleClick])
 
-  const clickText = useCallback((text:string) => {
+  const clickText = useCallback((text: string) => {
     dispatch(
       changeContentDetails({
-         text
+        text
       })
-    ) 
+    )
   }, [changeContentDetails])
 
-  const showMore = useCallback(() => {
-    dispatch(changeOpenElements(openElements.map(({ id, count }: OpenElement) => {
-      if (id === id) {
+  const changeShowCount = useCallback((type: "more" | "less") => {
+    dispatch(changeOpenElements(openElements.map((openElem: OpenElement) => {
+      let { id: elemId, count } = { ...openElem };
+      if (type === "more") {
+        count = count + (Number(children?.length) < 10 ? Number(children?.length) : 10)
+      } else {
+        count = count - (count < 10 ? 0 : 10);
+      }
+      if (elemId === id) {
         return {
           id,
-          count: count + (Number(children?.length) < 10 ? Number(children?.length) : 10)
+          count
         }
       }
-      return { id, count };
+      return openElem;
     })));
   }, [openElements, changeOpenElements, dispatch])
 
@@ -67,9 +74,10 @@ const DOMElement = ({
   if (type === "text") return (
     <div
       style={{
-        marginLeft: nestedCount * elementGap + "px"
+        marginLeft: nestedCount * elementGap + "px",
+        opacity: 1 - nestedCount * 0.05,
       }}
-      onClick={data ? () => clickText(data) : () => {}}
+      onClick={data ? () => clickText(data) : () => { }}
       id={id}
       data-nested-count={nestedCount}
       className={styles.dom_text_element}
@@ -84,13 +92,22 @@ const DOMElement = ({
         data-nested-count={nestedCount}
         style={{
           marginLeft: nestedCount * elementGap + "px",
+          opacity: 1 - nestedCount * 0.1 > 0.5 ? 1 - nestedCount * 0.1 : 0.5,
         }}
         id={id}
         className={styles.dom_element}
       >
         <p style={{ zIndex: 2 }}>{name}</p>
-        {idname ? <p>id:{idname}</p> : null}
-        {classname ? <p>class:{classname}</p> : null}
+        {idname ? <p>id:
+          <span className={styles.attribute}>
+            {sliceString(idname, 25)}
+          </span>
+        </p> : null}
+        {classname ? <p>class:
+          <span className={styles.attribute}>
+            {sliceString(classname, 25)}
+          </span>
+          </p> : null}
         <p>children:{children?.length}</p>
         {nestedElementsCount > 0 ? <>
           <div
@@ -114,11 +131,17 @@ const DOMElement = ({
           )
         )}
         {showChildrenCount < children.length ? (
-          <p
+          <div className="actions_cont"> <p
             className="show_more"
-            onClick={showMore}>
+            onClick={() => changeShowCount("more")}>
             Show More
           </p>
+            <p
+              className="show_less"
+              onClick={() => changeShowCount("less")}>
+              Show Less
+            </p>
+          </div>
         ) : null}
       </>
         : null}

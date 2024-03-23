@@ -45,14 +45,14 @@ const updateLinkModel = (
 const updateImageModel = (
     elementModel: ElementModel,
     src: string,
-    alt:string,
+    alt: string,
     images: ElementModel[],
     url: string): void => {
     if (elementModel.name === "img") {
         let updatedSrc = src?.startsWith("http") ? src : (src?.startsWith("/") ? url + src : url + "/" + src);
         updatedSrc = updatedSrc.replace("::", ":")
         images.push({
-            ...elementModel, 
+            ...elementModel,
             src: updatedSrc,
             alt
         });
@@ -67,9 +67,17 @@ const generateElementModel = (
     parents: string[] = []
 ): ElementModel | ElementModel[] => {
     if (!element || !element.type) return [];
-    
-    const { name, children, id, class: classname, attribs, type, data } = element;
-    const { name: attribName = "", rel = "", content = "", href = "", src = "", alt = "" } = { ...attribs || {} };
+
+    const { name, children, attribs, type, data } = element;
+    const {
+        name: attribName = "",
+        id = "",
+        class: classname = "",
+        rel = "",
+        content = "",
+        href = "",
+        src = "",
+        alt = "" } = { ...attribs || {} };
 
     if (type === 'text') {
         return ({
@@ -97,10 +105,10 @@ const generateElementModel = (
         elementModel.rel = rel;
     }
 
-    if(name === "a") {
+    if (name === "a") {
         updateLinkModel(elementModel, href, links, url);
     }
-    if(name === "img") {
+    if (name === "img") {
         updateImageModel(elementModel, src, alt, images, url);
     }
 
