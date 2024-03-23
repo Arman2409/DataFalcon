@@ -32,3 +32,16 @@
     left: 0px;
     z-index: 1;
 }
+
+.attribute {
+    color: $color5;
+}
+
+.show_less {
+   margin-left: 10px;
+   color: $color3;
+ 
+   &:hover {
+    color: $color2;
+   }
+}

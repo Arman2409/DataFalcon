@@ -15,15 +15,15 @@ const { waitBeforeScroll, scrollExtra } = { ...configs }
 const Links = () => {
     const [linksToShow, setLinksToShow] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { links } = useSelector((state: IRootState) => state.extractedData);
+    const { links, status } = useSelector((state: IRootState) => state.extractedData);
     const { openElements } = useSelector((state: IRootState) => state.domModel);
-    
+
     const clickLink = useCallback((id: string, parents: string[]) => {
-        dispatch(changeShowElement({id, parents}));
+        dispatch(changeShowElement({ id, parents }));
         setTimeout(() => {
-            const { offsetTop = 0} = document.getElementById(id) || {};
+            const { offsetTop = 0 } = document.getElementById(id) || {};
             const desiredPosition = offsetTop - scrollExtra;
-            
+
             window.scrollTo({
                 top: desiredPosition,
                 behavior: 'smooth'
@@ -31,9 +31,9 @@ const Links = () => {
         }, waitBeforeScroll + 50)
     }, [changeOpenElements, openElements, dispatch,])
 
-    const showMore = useCallback(() => {
-        setLinksToShow(links.slice(0, linksToShow.length + 10));
-    }, [links,linksToShow, setLinksToShow])
+    const changeShowCount = useCallback((type: "more" | "less") => {
+        setLinksToShow(links.slice(0, linksToShow.length +( type === "more" ? 10 : -10)));
+    }, [links, linksToShow, setLinksToShow])
 
     useEffect(() => {
         setLinksToShow(links.slice(0, 10));
@@ -41,20 +41,27 @@ const Links = () => {
 
     return (
         <div className={styles.main}>
-            {links.length ? <div className="section_title">
+            {status === "loaded" ? <><div className="section_title">
                 Links
-            </div> : null}
-            {linksToShow.map(linkData => (
-                <Link
-                    key={linkData.id}
-                    clickLink={clickLink}
-                    {...linkData}
-                />
-            ))}
-            {links.length > linksToShow.length ? 
-            <p className="show_more" onClick={showMore}>
-              Show More
-            </p> : null}
+            </div>
+                {linksToShow.map(linkData => (
+                    <Link
+                        key={linkData.id}
+                        clickLink={clickLink}
+                        {...linkData}
+                    />
+                ))}
+                {links.length > linksToShow.length ?
+                    <div className="actions_cont">
+                        <p className="show_more" onClick={() => changeShowCount("more")}>
+                            Show More
+                        </p>
+                        <p className="show_less" onClick={() => changeShowCount("less")}>
+                            Show Less
+                        </p>
+                    </div> : null}
+            </>
+                : null}
         </div>
     )
 }
