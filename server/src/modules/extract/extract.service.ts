@@ -7,7 +7,7 @@ import { CustomLogger } from '../../tools/logger';
 import generateElementModel from './mainFunctions/generateElementModel';
 import isValidUrl from "./mainFunctions/isValidUrl";
 import getTitles from './mainFunctions/getTitles';
-import type { ElementModel } from '../../../types/extract';
+import getBaseUrl from "./mainFunctions/getBaseUrl";
 
 @Injectable()
 export class ExtractService {
@@ -30,10 +30,7 @@ export class ExtractService {
                 return cachedData;
             }
             const startTime = Date.now();
-            await axios.get(url)
-                .then(({ data }) => {
-                    extractedData = data;
-                });
+            extractedData = (await axios.get(url))?.data;
             speed = Date.now() - startTime;
             return this.processData(extractedData, speed, url);
         } catch ({ message, response }) {
@@ -50,27 +47,24 @@ export class ExtractService {
         data: any,
         speed: number,
         url: string,
-        ): Promise<any> {
+    ): Promise<any> {
         try {
-            const { protocol, hostname } = new URL(url);
-            const baseUrl = `${protocol}://${hostname}`;
+            const baseUrl = getBaseUrl(url);
             const $ = load(data);
-            const head = $("head");
-            const body = $("body");
             const links = [];
             const images = [];
-            const headModel = generateElementModel(head["0"], links, images, baseUrl);
-            const bodyModel = generateElementModel(body["0"], links, images, baseUrl);
-            const titles = getTitles(headModel as ElementModel);
+            const domModel = generateElementModel($("html")["0"], links, images, baseUrl);
+            const { children: domElements = [] } = { ...domModel };
+            const headModel = domElements.find(
+                ({ name }: { name: string }) => name === "head"
+            );
+            const titles = getTitles(headModel);
             const extractedData = {
                 titles,
                 speed,
                 links,
                 images,
-                model: {
-                    head: headModel,
-                    body: bodyModel,
-                }
+                domElements
             }
             await this.cache.set(url, extractedData)
             return extractedData;

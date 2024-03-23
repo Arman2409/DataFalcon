@@ -5,7 +5,7 @@ import type { ElementModel } from "../../types/globals";
 
 interface extractInitialState {
    speed: number
-   domModel: ElementModel
+   domElements: ElementModel[]
    links: ElementModel[]
    titles: ElementModel[]
    images: ElementModel[]
@@ -14,7 +14,7 @@ interface extractInitialState {
 }
 
 const initialState: extractInitialState = {
-   domModel: { id: "", name: "", type: "" },
+   domElements: [],
    speed: 0,
    titles: [],
    links: [],
@@ -28,8 +28,6 @@ export const extract = createAsyncThunk(
    async ({ url, clearCache }: {
       url: string, clearCache: boolean
    }) => {
-      console.log({ clearCache });
-
       const result = await axios.get("http://localhost:4000/extract",
          { params: { url, clearCache } }).catch(({ message }) => {
             console.error(message)
@@ -60,11 +58,11 @@ const extractDataSlice: Slice = createSlice({
                return;
             }
             const { titles = {},
-               model = {},
+               domElements = [],
                speed = 0,
                links = [],
                images = [] } = { ...payload };
-            state.domModel = { ...model };
+            state.domElements = [...domElements];
             state.titles = { ...titles };
             state.links = [...links];
             state.images = [...images];
