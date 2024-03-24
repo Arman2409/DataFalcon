@@ -1,4 +1,4 @@
-const uniqueID = (name: string) => {
+const uniqueID = (name: string):string => {
     return name + Math.random().toString(32).slice(2);
 }
 

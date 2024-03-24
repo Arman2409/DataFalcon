@@ -6,7 +6,7 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 import styles from "./styles/Titles.module.scss";
 import sliceString from "../../../../../../helpers/sliceString";
 import { changeContentDetails } from "../../../../../../store/slices/demoSlice";
-import type { IRootState } from "../../../../../../store/store";
+import type { StoreState } from "../../../../../../store/store";
 
 const Titles = () => {
     const [title, setTitle] = useState<string>("");
@@ -15,7 +15,7 @@ const Titles = () => {
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     // Get the current title and description from Redux store
-    const { titles, status } = useSelector((state: IRootState) => state.extractData);
+    const { titles, status } = useSelector((state: StoreState) => state.extractData);
 
     const clickHeaders = useCallback(() => {
         dispatch(changeContentDetails({ type: "title", title, description }))

@@ -1,15 +1,16 @@
 import uniqueID from "../helpers/uniqueID";
 
 import type { ElementModel } from "../../../../types/extract";
+import fixProtocol from "../helpers/fixProtocol";
 
 const getChildren = (
-    children: ElementModel[],
+    url: string,
     attribName: string,
     content: string,
+    parents: string[] = [],
+    children: ElementModel[] = [],
     links: ElementModel[],
     images: ElementModel[],
-    url: string,
-    parents: string[] = [],
 ) => {
     if (attribName === "description") {
         return [{
@@ -20,7 +21,7 @@ const getChildren = (
         }]
     }
     if (children?.length) {
-        return children.flatMap((element: any) => {
+        return children.flatMap((element: ElementModel) => {
             return generateElementModel(element, links, images, url, parents);
         })
     }
@@ -34,7 +35,7 @@ const updateLinkModel = (
     url: string): void => {
     if (elementModel.name === "a") {
         let updatedHref = href?.startsWith("/") ? url + href : href;
-        updatedHref = updatedHref.replace("::", ":")
+        updatedHref = fixProtocol(updatedHref);
         links.push({
             ...elementModel,
             href: updatedHref
@@ -97,7 +98,7 @@ const generateElementModel = (
         idname: id,
         type,
         parents,
-        children: getChildren(children, attribName, content, links, images, url, [...parents, uniqueId]),
+        children: getChildren(url, attribName, content, [...parents, uniqueId], children,  links, images),
     };
 
     if (rel || attribName) {

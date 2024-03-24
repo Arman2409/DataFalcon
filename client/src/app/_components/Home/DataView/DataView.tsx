@@ -10,10 +10,10 @@ import styles from "./styles/DataView.module.scss";
 import Titles from "./components/Titles/Titles";
 import Notification from "../../common/Notification/Notification";
 import DataIconContainer from "./components/DataIconContainer/DataIconContainer";
-import type { IRootState } from "../../../../store/store";
+import type { StoreState } from "../../../../store/store";
 
 const DataView = () => {
-    const { status, failMessage } = useSelector((state: IRootState) => state.extractData);
+    const { status, failMessage } = useSelector((state: StoreState) => state.extractData);
 
     return (
         <div className={styles.data_view_main}>

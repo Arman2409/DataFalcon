@@ -4,9 +4,10 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ExtractService } from './extract.service';
 import { CustomLogger } from '../../tools/logger';
 import { ExtractController } from './extract.controller';
-import configs from "../../../configs/extract.json";
+import * as configs from "../../../configs/extract.json";
 
 const { cacheConfig } = { ...configs };
+
 @Module({
   providers: [
     ExtractService,

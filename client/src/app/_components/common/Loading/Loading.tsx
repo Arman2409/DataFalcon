@@ -2,10 +2,10 @@
 import { useSelector } from "react-redux";
 
 import styles from "./styles/Loading.module.scss";
-import type { IRootState } from "../../../../store/store";
+import type { StoreState } from "../../../../store/store";
 
 const Loading = () => {
-    const { status } = useSelector((state: IRootState) => state.extractData);
+    const { status } = useSelector((state: StoreState) => state.extractData);
 
     return (
         <>

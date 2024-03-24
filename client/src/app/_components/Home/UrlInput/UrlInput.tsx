@@ -1,38 +1,41 @@
 "use client"
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { ThunkDispatch } from "@reduxjs/toolkit";
 
 import styles from "./styles/UrlInput.module.scss";
 import { extract, changeLoadingState } from "../../../../store/slices/extractDataSlice";
 import configs from "../../../../configs/urlInput.json";
+import type { StoreState } from "../../../../store/store";
 
 const { placeholderText, placeholderInterval } = { ...configs };
 
 const UrlInput = () => {
-    const [placeholder, setPlaceholder] = useState<string>("")
+    const [placeholder, setPlaceholder] = useState<string>("");
+    const [inputUrl, setInputUrl] = useState<string>("");
     const urlInput = useRef<HTMLInputElement>(null);
     const inputInterval = useRef<any>();
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const { url } = useSelector((state: StoreState) => state.extractData);
 
     const extractData = useCallback(async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const { value = "" }:any = document.activeElement;
+        const { value = "" }: any = document.activeElement;
         const clearCache = value === "clearCache" ? true : false;
-        const { value: url = "" } = (event.target as any)["0"];
-        if (!url) return console.error("URL is empty");
+        if (!inputUrl) return console.error("URL is empty");
         dispatch(changeLoadingState("loading"));
-        dispatch(extract({ url, clearCache }));
-    }, [extract, dispatch, changeLoadingState])
+        dispatch(extract({ url: inputUrl, clearCache }));
+    }, [extract, inputUrl, dispatch, changeLoadingState])
 
     const clear = useCallback(() => {
-        if (urlInput.current) urlInput.current.value = "";
-        setPlaceholder("");
-    }, [setPlaceholder])
+        setInputUrl("");
+    }, [setInputUrl])
 
     const changeUrl = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
-        if (target.value === "") setPlaceholder("");
-    }, [setPlaceholder])
+        const { value = "" } = { ...target || {} };
+        if (value === "") setPlaceholder("");
+        setInputUrl(value)
+    }, [setPlaceholder, setInputUrl])
 
     useEffect(() => {
         if (inputInterval.current) return;
@@ -46,6 +49,15 @@ const UrlInput = () => {
         }, placeholderInterval)
     }, [setPlaceholder])
 
+    useEffect(() => {
+        setInputUrl(currUrl => {
+            if(currUrl !== url) {
+                return url;
+            }
+            return currUrl;
+        });
+    }, [url, setInputUrl])
+
     return (
         <div className={styles.main}>
             <form
@@ -54,6 +66,7 @@ const UrlInput = () => {
                 <input
                     name="url"
                     type="url"
+                    value={inputUrl}
                     placeholder={placeholder}
                     ref={urlInput}
                     className={styles.url_input}

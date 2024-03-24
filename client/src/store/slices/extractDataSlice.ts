@@ -1,37 +1,39 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import type { ElementModel } from "../../types/globals";
+import type { ExtractInitialState, ExtractParams } from "../../types/store/slices/extractData";
 
-interface extractInitialState {
-   speed: number
-   domElements: ElementModel[]
-   links: ElementModel[]
-   titles: ElementModel[]
-   images: ElementModel[]
-   status: "loading" | "failed" | "loaded" | "initial"
-   failMessage: string
-}
-
-const initialState: extractInitialState = {
-   domElements: [],
+const initialState: ExtractInitialState = {
    speed: 0,
-   titles: [],
+   failMessage: "",
+   url: "",
+   status: "initial",
+   titles: {},
    links: [],
    images: [],
-   status: "initial",
-   failMessage: ""
+   domElements: []
 }
 
 export const extract = createAsyncThunk(
    "extractData/createUser",
-   async ({ url, clearCache }: {
-      url: string, clearCache: boolean
-   }) => {
+   async ({ url, clearCache, isDemo }: ExtractParams, { rejectWithValue}) => {
+      const params: ExtractParams = isDemo ? {
+         isDemo: true
+      } : {
+         clearCache,
+         url
+      }
       const result = await axios.get("http://localhost:4000/extract",
-         { params: { url, clearCache } }).catch(({ message }) => {
-            console.error(message)
+         { params }).catch(({ message }) => {
+            console.error(message);
          });
+      setTimeout(() => {
+        if(!result?.data) {
+          rejectWithValue({
+            message: "Extraction timed out",
+          })
+        }
+      }, 5000)
       return { ...result?.data || {} };
    }
 )
@@ -48,31 +50,32 @@ const extractDataSlice: Slice = createSlice({
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
             const {
-               message = "",
-               code = 400
+               message = ""
             } = { ...payload };
             if (message) {
                state.status = "failed";
                state.failMessage = message;
-               // code ... 
                return;
             }
-            const { titles = {},
-               domElements = [],
-               speed = 0,
-               links = [],
-               images = [] } = { ...payload };
+            const {
+               speed,
+               url,
+               titles,
+               domElements,
+               links,
+               images }: ExtractInitialState = { ...payload };
             state.domElements = [...domElements];
             state.titles = { ...titles };
             state.links = [...links];
             state.images = [...images];
             state.speed = speed;
             state.status = "loaded";
+            state.url = url;
          }
       })
       builder.addCase(extract.rejected, (state, { payload }: any) => {
          state.status = "failed";
-         state.failMessage = "failed"
+         state.failMessage = payload?.message;
       })
    }
 });

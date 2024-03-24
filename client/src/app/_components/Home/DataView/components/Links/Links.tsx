@@ -7,7 +7,7 @@ import styles from "./styles/Links.module.scss";
 import Link from "./components/Link/LInk";
 import { changeOpenElements, changeShowElement } from "../../../../../../store/slices/domModelSlice";
 import configs from "../../../../../../configs/links.json";
-import type { IRootState } from "../../../../../../store/store";
+import type { StoreState } from "../../../../../../store/store";
 import type { ElementModel } from "../../../../../../types/globals";
 
 const { waitBeforeScroll, scrollExtra } = { ...configs }
@@ -15,8 +15,8 @@ const { waitBeforeScroll, scrollExtra } = { ...configs }
 const Links = () => {
     const [linksToShow, setLinksToShow] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { links, status } = useSelector((state: IRootState) => state.extractData);
-    const { openElements } = useSelector((state: IRootState) => state.domModel);
+    const { links, status } = useSelector((state: StoreState) => state.extractData);
+    const { openElements } = useSelector((state: StoreState) => state.domModel);
 
     const clickLink = useCallback((id: string, parents: string[]) => {
         dispatch(changeShowElement({ id, parents }));
