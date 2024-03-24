@@ -23,9 +23,7 @@ const Demo = () => {
             return console.error("Text not provided for copying")
         }
         navigator.clipboard.writeText(text)
-            .then(() => {
-                setMessage("Text copied to clipboard");
-            })
+            .then(() => setMessage("Text copied to clipboard"))
             .catch(({ message }: Error) => {
                 setMessage("Error copying text to clipboard:" + message);
             });
@@ -51,14 +49,12 @@ const Demo = () => {
                 <div
                     className={styles.content}
                     onClick={(e) => e.stopPropagation()}>
-                    {title ? <>
-                        <h2 className={styles.title}>
-                            {title}
-                        </h2>
-                        <h4 className={styles.description}>
-                            {description}
-                        </h4>
-                    </> : null}
+                    {title ? <h2 className={styles.title}>
+                        {title}
+                    </h2> : null}
+                    {description ? <h4 className={styles.description}>
+                        {description}
+                    </h4> : null}
                     {src ? <>
                         <img
                             src={src}

@@ -48,7 +48,7 @@ const DOMElement = ({
       if (type === "more") {
         count = count + (Number(children?.length) < 10 ? Number(children?.length) : 10)
       } else {
-        count = count - (count < 10 ? 0 : 10);
+        count = count < 10 ? 0 : count - 10;
       }
       if (elemId === id) {
         return {
@@ -107,7 +107,7 @@ const DOMElement = ({
           <span className={styles.attribute}>
             {sliceString(classname, 25)}
           </span>
-          </p> : null}
+        </p> : null}
         <p>children:{children?.length}</p>
         {nestedElementsCount > 0 ? <>
           <div
@@ -130,17 +130,21 @@ const DOMElement = ({
             />
           )
         )}
-        {showChildrenCount < children.length ? (
-          <div className="actions_cont"> <p
-            className="show_more"
-            onClick={() => changeShowCount("more")}>
-            Show More
-          </p>
-            <p
+        {children.length > 10 ? (
+          <div
+            className="actions_cont"
+            data-nested-count={nestedCount + 1}
+          >
+            {showChildrenCount < children.length ? <p
+              className="show_more"
+              onClick={() => changeShowCount("more")}>
+              Show More
+            </p> : null}
+            {showChildrenCount > 10 ? <p
               className="show_less"
               onClick={() => changeShowCount("less")}>
               Show Less
-            </p>
+            </p> : null}
           </div>
         ) : null}
       </>

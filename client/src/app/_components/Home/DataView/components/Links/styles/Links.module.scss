@@ -1,11 +1,13 @@
 @import "../../../../../../../styles/classes.scss";
+@import "../../../../../../../styles/variables.scss";
 
 .main {
     @extend .center_content;
 
     width: 50vw;
     position: relative;
-    padding: 50px 30px;
+    padding: 75px 30px;
     flex-direction: column;
     justify-content: flex-start;
+    background-color: $links_color;
 }

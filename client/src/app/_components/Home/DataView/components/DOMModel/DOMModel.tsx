@@ -13,7 +13,7 @@ import type { OpenElement } from "../../../../../../store/slices/domModelSlice";
 const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { domElements } = useSelector((state: IRootState) => state.extractData);
+    const { domElements, status } = useSelector((state: IRootState) => state.extractData);
     const { openElements, showElement } = useSelector((state: IRootState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
@@ -28,8 +28,7 @@ const DOMModel = () => {
     const calculateNestedCount = (id: string) => {
         const targetElement = document.getElementById(id);
         if (!targetElement) {
-            console.error(`Element with id ${id} not found.`);
-            return;
+            return console.error(`Element with id ${id} not found.`);
         }
 
         const nestedCount = parseInt(targetElement.getAttribute('data-nested-count') as string, 10);
@@ -38,8 +37,7 @@ const DOMModel = () => {
         const targetIndex = elements.indexOf(targetElement);
 
         if (targetIndex === -1) {
-            console.error(`Element with id ${id} not found in the array of elements.`);
-            return;
+            return console.error(`Element with id ${id} not found in the array of elements.`);
         }
 
         for (let i = targetIndex + 1; i < elements.length; i++) {
@@ -56,7 +54,7 @@ const DOMModel = () => {
     }
 
     useEffect(() => {
-         setDomItems([...domElements])
+        setDomItems([...domElements])
     }, [domElements, setDomItems])
 
     useEffect(() => {
@@ -79,7 +77,7 @@ const DOMModel = () => {
             }
             const { children, id: elemId } = { ...element };
             const childElementOrder = children ? children.findIndex(({ id }: ElementModel) => id === parentIds[current + 1]) + 1 : 0;
-            if(childElementOrder) {
+            if (childElementOrder) {
                 return;
             }
             let newOpenElements = [];
@@ -115,21 +113,24 @@ const DOMModel = () => {
 
     return (
         <div className={styles.main}>
-            {domItems.length ? <div className="section_title">
-                DOM model
-            </div> : null}
-            {domItems.length ? domItems.map(({ id, ...rest }) => (
-                <DOMElement
-                    key={id}
-                    id={id}
-                    nestedCount={0}
-                    openElements={openElements}
-                    calculateNestedCount={calculateNestedCount}
-                    handleClick={clickElement}
-                    {...rest}
-                />
-            )
-            ) : null}
+            {status === "loaded" ? <>
+                <div className="section_title">
+                    DOM Elements
+                </div>
+                {domItems.length ? domItems.map(({ id, ...rest }) => (
+                    <DOMElement
+                        key={id}
+                        id={id}
+                        nestedCount={0}
+                        openElements={openElements}
+                        calculateNestedCount={calculateNestedCount}
+                        handleClick={clickElement}
+                        {...rest}
+                    />
+                )
+                ) : <h5 className="not_found_text">No DOM Elements found</h5>}
+            </>
+                : null}
         </div>
     )
 }
