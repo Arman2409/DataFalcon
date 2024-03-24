@@ -5,32 +5,40 @@ import type { ElementModel } from "../../types/globals";
 
 interface extractInitialState {
    speed: number
+   failMessage: string
+   url: string
    domElements: ElementModel[]
    links: ElementModel[]
    titles: ElementModel[]
    images: ElementModel[]
    status: "loading" | "failed" | "loaded" | "initial"
-   failMessage: string
 }
 
 const initialState: extractInitialState = {
-   domElements: [],
    speed: 0,
+   failMessage: "",
+   url: "",
+   status: "initial",
    titles: [],
    links: [],
    images: [],
-   status: "initial",
-   failMessage: ""
+   domElements: []
 }
 
 export const extract = createAsyncThunk(
    "extractData/createUser",
-   async ({ url, clearCache }: {
-      url: string, clearCache: boolean
+   async ({ url, clearCache, isDemo }: {
+      clearCache?: boolean, isDemo?: boolean, url?: string,
    }) => {
+      const params = isDemo ? {
+         isDemo: true
+      } : {
+         clearCache,
+         url
+      }
       const result = await axios.get("http://localhost:4000/extract",
-         { params: { url, clearCache } }).catch(({ message }) => {
-            console.error(message)
+         { params }).catch(({ message }) => {
+            console.error(message);
          });
       return { ...result?.data || {} };
    }
@@ -48,18 +56,18 @@ const extractDataSlice: Slice = createSlice({
       builder.addCase(extract.fulfilled, (state, { payload }) => {
          if (typeof payload === "object") {
             const {
-               message = "",
-               code = 400
+               message = ""
             } = { ...payload };
             if (message) {
                state.status = "failed";
                state.failMessage = message;
-               // code ... 
                return;
             }
-            const { titles = {},
-               domElements = [],
+            const {
                speed = 0,
+               url = "",
+               titles = {},
+               domElements = [],
                links = [],
                images = [] } = { ...payload };
             state.domElements = [...domElements];
@@ -68,6 +76,7 @@ const extractDataSlice: Slice = createSlice({
             state.images = [...images];
             state.speed = speed;
             state.status = "loaded";
+            state.url = url;
          }
       })
       builder.addCase(extract.rejected, (state, { payload }: any) => {

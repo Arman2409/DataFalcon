@@ -60,6 +60,7 @@ export class ExtractService {
             );
             const titles = getTitles(headModel);
             const extractedData = {
+                url,
                 titles,
                 speed,
                 links,

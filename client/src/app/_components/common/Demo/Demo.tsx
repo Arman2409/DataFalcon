@@ -6,10 +6,10 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 import styles from "./styles/Demo.module.scss";
 import Notification from "../Notification/Notification";
 import { changeContentDetails } from "../../../../store/slices/demoSlice";
-import type { IRootState } from "../../../../store/store";
+import type { StoreState } from "../../../../store/store";
 
 const Demo = () => {
-    const { src, alt, title, description, text } = useSelector((state: IRootState) => state.demo);
+    const { src, alt, title, description, text } = useSelector((state: StoreState) => state.demo);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const [message, setMessage] = useState<string>("");
 

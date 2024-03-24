@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import styles from "./styles/Speed.module.scss";
 import configs from "../../../../../../configs/speed.json";
-import type { IRootState } from "../../../../../../store/store";
+import type { StoreState } from "../../../../../../store/store";
 
 const { speedChangeInterlval } = { ...configs };
 
@@ -12,7 +12,7 @@ const Speed = () => {
     const [speedNumber, setSpeedNumber] = useState<number>(0)
     const [animatingLeft, setAnimatingLeft] = useState<number>(200);
     const speedInterval = useRef<any>();
-    const { speed } = useSelector((state: IRootState) => state.extractData);
+    const { speed } = useSelector((state: StoreState) => state.extractData);
 
     useEffect(() => {
         if (speed) {

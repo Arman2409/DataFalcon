@@ -6,15 +6,15 @@ import type { ThunkDispatch } from "@reduxjs/toolkit";
 import styles from "./styles/DOMModel.module.scss";
 import DOMElement from "./components/DOMElement/DOMElement";
 import { changeOpenElements } from "../../../../../../store/slices/domModelSlice";
-import type { IRootState } from "../../../../../../store/store";
+import type { StoreState } from "../../../../../../store/store";
 import type { ElementModel } from "../../../../../../types/globals";
 import type { OpenElement } from "../../../../../../store/slices/domModelSlice";
 
 const DOMModel = () => {
     const [domItems, setDomItems] = useState<ElementModel[]>([]);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-    const { domElements, status } = useSelector((state: IRootState) => state.extractData);
-    const { openElements, showElement } = useSelector((state: IRootState) => state.domModel);
+    const { domElements, status } = useSelector((state: StoreState) => state.extractData);
+    const { openElements, showElement } = useSelector((state: StoreState) => state.domModel);
 
     const clickElement = useCallback((id: string) => {
         if (!id) return console.error("Id not provided");
@@ -109,7 +109,7 @@ const DOMModel = () => {
             const { parents, id }: any = { ...showElement };
             openElementToShow(parents, id);
         }
-    }, [showElement])
+    }, [showElement, openElementToShow])
 
     return (
         <div className={styles.main}>
