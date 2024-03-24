@@ -28,9 +28,8 @@ const UrlInput = () => {
     }, [extract, inputUrl, dispatch, changeLoadingState])
 
     const clear = useCallback(() => {
-        if (urlInput.current) urlInput.current.value = "";
-        setPlaceholder("");
-    }, [setPlaceholder])
+        setInputUrl("");
+    }, [setInputUrl])
 
     const changeUrl = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
         const { value = "" } = { ...target || {} };
@@ -51,10 +50,13 @@ const UrlInput = () => {
     }, [setPlaceholder])
 
     useEffect(() => {
-        if (url !== inputUrl) {
-            setInputUrl(url);
-        }
-    }, [url, inputUrl, setInputUrl])
+        setInputUrl(currUrl => {
+            if(currUrl !== url) {
+                return url;
+            }
+            return currUrl;
+        });
+    }, [url, setInputUrl])
 
     return (
         <div className={styles.main}>
