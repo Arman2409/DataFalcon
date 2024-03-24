@@ -1,25 +1,14 @@
 import { createAsyncThunk, createSlice, Slice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import type { ElementModel } from "../../types/globals";
+import type { ExtractInitialState, ExtractParams } from "../../types/store/slices/extractData";
 
-interface extractInitialState {
-   speed: number
-   failMessage: string
-   url: string
-   domElements: ElementModel[]
-   links: ElementModel[]
-   titles: ElementModel[]
-   images: ElementModel[]
-   status: "loading" | "failed" | "loaded" | "initial"
-}
-
-const initialState: extractInitialState = {
+const initialState: ExtractInitialState = {
    speed: 0,
    failMessage: "",
    url: "",
    status: "initial",
-   titles: [],
+   titles: {},
    links: [],
    images: [],
    domElements: []
@@ -27,10 +16,8 @@ const initialState: extractInitialState = {
 
 export const extract = createAsyncThunk(
    "extractData/createUser",
-   async ({ url, clearCache, isDemo }: {
-      clearCache?: boolean, isDemo?: boolean, url?: string,
-   }) => {
-      const params = isDemo ? {
+   async ({ url, clearCache, isDemo }: ExtractParams, { rejectWithValue}) => {
+      const params: ExtractParams = isDemo ? {
          isDemo: true
       } : {
          clearCache,
@@ -40,6 +27,13 @@ export const extract = createAsyncThunk(
          { params }).catch(({ message }) => {
             console.error(message);
          });
+      setTimeout(() => {
+        if(!result?.data) {
+          rejectWithValue({
+            message: "Extraction timed out",
+          })
+        }
+      }, 5000)
       return { ...result?.data || {} };
    }
 )
@@ -64,12 +58,12 @@ const extractDataSlice: Slice = createSlice({
                return;
             }
             const {
-               speed = 0,
-               url = "",
-               titles = {},
-               domElements = [],
-               links = [],
-               images = [] } = { ...payload };
+               speed,
+               url,
+               titles,
+               domElements,
+               links,
+               images }: ExtractInitialState = { ...payload };
             state.domElements = [...domElements];
             state.titles = { ...titles };
             state.links = [...links];
@@ -81,7 +75,7 @@ const extractDataSlice: Slice = createSlice({
       })
       builder.addCase(extract.rejected, (state, { payload }: any) => {
          state.status = "failed";
-         state.failMessage = "failed"
+         state.failMessage = payload?.message;
       })
    }
 });

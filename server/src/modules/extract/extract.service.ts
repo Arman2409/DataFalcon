@@ -8,6 +8,7 @@ import generateElementModel from './mainFunctions/generateElementModel';
 import isValidUrl from "./mainFunctions/isValidUrl";
 import getTitles from './mainFunctions/getTitles';
 import getBaseUrl from "./mainFunctions/getBaseUrl";
+import type { ElementModel } from '../../../types/extract';
 
 @Injectable()
 export class ExtractService {
@@ -56,7 +57,7 @@ export class ExtractService {
             const domModel = generateElementModel($("html")["0"], links, images, baseUrl);
             const { children: domElements = [] } = { ...domModel };
             const headModel = domElements.find(
-                ({ name }: { name: string }) => name === "head"
+                ({ name }: ElementModel) => name === "head"
             );
             const titles = getTitles(headModel);
             const extractedData = {
@@ -68,7 +69,7 @@ export class ExtractService {
                 domElements
             }
             await this.cache.set(url, extractedData)
-            return extractedData;
+            // return extractedData;
         } catch ({ message, response }) {
             this.logger.error(message);
             const code = { ...response };

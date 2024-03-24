@@ -19,7 +19,7 @@
     width: 750px;
     height: 60px;
     background-color: $color1;
-    background: linear-gradient(21deg, $color4 0%, $color3 100%);
+    background: linear-gradient(21deg, $color4 0%, $color1 100%);
     border-radius: 20px;
     border: none;
     color: $color3;
@@ -69,7 +69,7 @@
         left: -100%;
         transition: 1s;
         top: 0px;
-        background-color: $color3;
+        background-color: $color1;
     }
 
     &:hover {

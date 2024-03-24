@@ -67,7 +67,6 @@ const UrlInput = () => {
                     name="url"
                     type="url"
                     value={inputUrl}
-                    min={8}
                     placeholder={placeholder}
                     ref={urlInput}
                     className={styles.url_input}
