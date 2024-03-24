@@ -8,8 +8,9 @@
     flex-direction: column;
     position: relative;
     padding: 30px;
-    height: 250px;
+    min-height: 250px;
     overflow: hidden;
+    background-color: $images_color;
 }
 
 .slides_cont {
@@ -20,7 +21,7 @@
 }
 
 .images_title {
-  align-self: center;
+    align-self: center;
 }
 
 .arrow {
@@ -50,9 +51,4 @@
     @extend .arrow;
 
     right: 20px;
-}
-
-.no_images_found {
-   color: $color3;
-   font-size: 20px;
 }

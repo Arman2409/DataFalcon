@@ -65,8 +65,8 @@ const Images = () => {
                         />
                     ))}
 
-                </div> : <h5 className={styles.no_images_found}>
-                    No images found
+                </div> : <h5 className="not_found_text">
+                    No Images found
                 </h5>}
             </>
                 : null}

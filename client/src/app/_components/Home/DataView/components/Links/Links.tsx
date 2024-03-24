@@ -32,7 +32,7 @@ const Links = () => {
     }, [changeOpenElements, openElements, dispatch,])
 
     const changeShowCount = useCallback((type: "more" | "less") => {
-        setLinksToShow(links.slice(0, linksToShow.length +( type === "more" ? 10 : -10)));
+        setLinksToShow(links.slice(0, linksToShow.length + (type === "more" ? 10 : -10)));
     }, [links, linksToShow, setLinksToShow])
 
     useEffect(() => {
@@ -41,16 +41,19 @@ const Links = () => {
 
     return (
         <div className={styles.main}>
-            {status === "loaded" ? <><div className="section_title">
-                Links
-            </div>
-                {linksToShow.map(linkData => (
+            {status === "loaded" ? <>
+                <div className="section_title">
+                    Links
+                </div>
+                {links.length ? linksToShow.map(linkData => (
                     <Link
                         key={linkData.id}
                         clickLink={clickLink}
                         {...linkData}
                     />
-                ))}
+                )) : <h5 className="not_found_text">
+                    No Links found
+                </h5>}
                 {links.length > linksToShow.length ?
                     <div className="actions_cont">
                         <p className="show_more" onClick={() => changeShowCount("more")}>
